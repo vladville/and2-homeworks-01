@@ -88,11 +88,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/common_spacing"
-        app:srcCompat="@drawable/ic_likes"
         android:background="@android:color/transparent"
         android:contentDescription="@string/description_post_likes"
         app:layout_constraintRight_toLeftOf="@+id/likeCount"
-        app:layout_constraintTop_toTopOf="@+id/barrier2" />
+        app:layout_constraintTop_toTopOf="@+id/barrier2"
+        app:srcCompat="@drawable/ic_likes" />
 
     <TextView
         android:id="@+id/likeCount"
@@ -111,12 +111,12 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/common_spacing"
         android:layout_marginTop="@dimen/common_spacing"
-        app:srcCompat="@drawable/ic_shares"
         android:background="@android:color/transparent"
         android:contentDescription="@string/description_post_shares"
         app:layout_constraintRight_toLeftOf="@+id/shareCount"
         app:layout_constraintStart_toEndOf="@id/likeCount"
-        app:layout_constraintTop_toTopOf="@+id/barrier2" />
+        app:layout_constraintTop_toTopOf="@+id/barrier2"
+        app:srcCompat="@drawable/ic_shares" />
 
     <TextView
         android:id="@+id/shareCount"
@@ -138,10 +138,8 @@
         android:contentDescription="@string/description_post_viewed"
         app:layout_constraintBottom_toBottomOf="@+id/ViewCount"
         app:layout_constraintEnd_toEndOf="@+id/ViewCount"
-        app:layout_constraintRight_toLeftOf="@+id/ViewCount"
-        app:layout_constraintTop_toTopOf="@+id/ViewCount"
-        app:layout_constraintEnd_toStartOf="@+id/ViewCount"/>
-
+        app:layout_constraintEnd_toStartOf="@+id/ViewCount"
+        app:layout_constraintTop_toTopOf="@+id/ViewCount" />
 
     <TextView
         android:id="@+id/ViewCount"
@@ -149,10 +147,10 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/icon_data_spacing"
         android:layout_marginTop="@dimen/common_spacing"
-        app:layout_constraintTop_toTopOf="@+id/barrier2"
         app:layout_constraintBottom_toBottomOf="@+id/shareIcon"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintLeft_toRightOf="@+id/ViewIcon"
+        app:layout_constraintTop_toTopOf="@+id/barrier2"
         tools:text="@sample/posts.json/data/views" />
 
 
