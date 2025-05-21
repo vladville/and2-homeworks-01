@@ -135,7 +135,7 @@
         android:layout_height="24dp"
         android:layout_marginEnd="@dimen/icon_data_spacing"
         android:background="@drawable/ic_view"
-        android:contentDescription="@string/description_post_shares"
+        android:contentDescription="@string/description_post_viewed"
         app:layout_constraintBottom_toBottomOf="@+id/ViewCount"
         app:layout_constraintEnd_toEndOf="@+id/ViewCount"
         app:layout_constraintRight_toLeftOf="@+id/ViewCount"
