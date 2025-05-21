@@ -1,4 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="nmedia">НМедиа!</string>
+    <string name="app_name" translatable="false">NMedia</string>
+    <string name="description_post_author_avatar">Post author avatar</string>
+    <string name="description_post_likes">Post likes count</string>
+    <string name="description_post_shares">Post shares count</string>
+    <string name="description_post_viewed">Post viewed count</string>
+    <string name="description_post_menu">Post menu</string>
 </resources>
