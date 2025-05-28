@@ -33,15 +33,14 @@ class MainActivity : AppCompatActivity() {
                         R.drawable.ic_likes
                     }
                 )
-                //likeCount.text = numbersToThousands(post.likes)
             }
         }
 
-        binding.likeIcon?.setOnClickListener {
+        binding.likeIcon.setOnClickListener {
             viewModel.like()
         }
 
-        binding.shareIcon?.setOnClickListener {
+        binding.shareIcon.setOnClickListener {
             viewModel.share()
         }
 
