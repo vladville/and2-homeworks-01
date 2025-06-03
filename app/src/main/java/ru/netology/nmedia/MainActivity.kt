@@ -3,8 +3,10 @@ package ru.netology.nmedia
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.DiffUtil
+import ru.netology.nmedia.adapter.PostAdapter
 import ru.netology.nmedia.databinding.ActivityMainBinding
-import ru.netology.nmedia.dto.numbersToThousands
+import ru.netology.nmedia.dto.Post
 import ru.netology.nmedia.viewmodel.PostViewModel
 
 class MainActivity : AppCompatActivity() {
@@ -16,33 +18,26 @@ class MainActivity : AppCompatActivity() {
         val binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        viewModel.data.observe(this) { post ->
+        val adapter = PostAdapter(
+            onLikeListener = { post -> viewModel.like(post.id) },
+            onShareListener = { post -> viewModel.share(post.id) }
+        )
 
-            with(binding) {
-                author.text = post.author
-                content.text = post.content
-                published.text = post.published
-                likeCount.text = numbersToThousands(post.likes)
-                shareCount.text = numbersToThousands(post.shares)
-                ViewCount.text = numbersToThousands(post.views)
+        binding.list.adapter = adapter
 
-                likeIcon.setImageResource(
-                    if (post.likeByMe) {
-                        R.drawable.ic_liked
-                    } else {
-                        R.drawable.ic_likes
-                    }
-                )
-            }
+        viewModel.data.observe(this) { posts ->
+            adapter.submitList(posts)
         }
 
-        binding.likeIcon.setOnClickListener {
-            viewModel.like()
-        }
+    }
+}
 
-        binding.shareIcon.setOnClickListener {
-            viewModel.share()
-        }
+object PostDiffCallBack : DiffUtil.ItemCallback<Post>() {
+    override fun areItemsTheSame(oldItem: Post, newItem: Post): Boolean {
+        return oldItem.id == newItem.id
+    }
 
+    override fun areContentsTheSame(oldItem: Post, newItem: Post): Boolean {
+        return oldItem == newItem
     }
 }
