@@ -6,9 +6,19 @@ import ru.netology.nmedia.dto.Post
 
 class PostRepositoryInMemoryImpl : PostRepository {
 
+    private var index: Long = 1L
     private var posts = listOf(
         Post(
-            id = 9,
+            id = index++,
+            author = "Нетология. Университет интернет-профессией будущего",
+            content = "Привет. Это новая Нетология. Когда-то Нетология начиналась с интенсив...",
+            published = "03 июня в 19:13",
+            likes = 999,
+            shares = 999,
+            views = 202_999
+        ),
+        Post(
+            id = index++,
             author = "Нетология. Университет интернет-профессией будущего",
             content = "Привет. Это новая Нетология. Когда-то Нетология начиналась с интенсив...",
             published = "03 июня в 19:13",
@@ -17,16 +27,7 @@ class PostRepositoryInMemoryImpl : PostRepository {
             views = 202_999
         ),
         Post(
-            id = 8,
-            author = "Нетология. Университет интернет-профессией будущего",
-            content = "Привет. Это новая Нетология. Когда-то Нетология начиналась с интенсив...",
-            published = "03 июня в 19:13",
-            likes = 999,
-            shares = 9,
-            views = 202_999
-        ),
-        Post(
-            id = 7,
+            id = index++,
             author = "Нетология. Университет интернет-профессией будущего",
             content = "Привет. Это новая Нетология. Когда-то Нетология начиналась с интенсив...",
             published = "26 мая в 19:13",
@@ -35,7 +36,7 @@ class PostRepositoryInMemoryImpl : PostRepository {
             views = 2_202_200
         ),
         Post(
-            id = 6,
+            id = index++,
             author = "Нетология. Университет интернет-профессией будущего",
             content = "Привет. Это новая Нетология. Когда-то Нетология начиналась с интенсив...",
             published = "03 июня в 19:13",
@@ -44,7 +45,7 @@ class PostRepositoryInMemoryImpl : PostRepository {
             views = 202_999
         ),
         Post(
-            id = 5,
+            id = index++,
             author = "Нетология. Университет интернет-профессией будущего",
             content = "Привет. Это новая Нетология. Когда-то Нетология начиналась с интенсив...",
             published = "03 июня в 19:13",
@@ -53,7 +54,7 @@ class PostRepositoryInMemoryImpl : PostRepository {
             views = 202_999
         ),
         Post(
-            id = 4,
+            id = index++,
             author = "Нетология. Университет интернет-профессией будущего",
             content = "Привет. Это новая Нетология. Когда-то Нетология начиналась с интенсив...",
             published = "26 мая в 19:13",
@@ -62,7 +63,7 @@ class PostRepositoryInMemoryImpl : PostRepository {
             views = 2_202_200
         ),
         Post(
-            id = 3,
+            id = index++,
             author = "Нетология. Университет интернет-профессией будущего",
             content = "Привет. Это новая Нетология. Когда-то Нетология начиналась с интенсив...",
             published = "03 июня в 19:13",
@@ -71,7 +72,7 @@ class PostRepositoryInMemoryImpl : PostRepository {
             views = 202_999
         ),
         Post(
-            id = 2,
+            id = index++,
             author = "Нетология. Университет интернет-профессией будущего",
             content = "Привет. Это новая Нетология. Когда-то Нетология начиналась с интенсив...",
             published = "03 июня в 19:13",
@@ -80,7 +81,7 @@ class PostRepositoryInMemoryImpl : PostRepository {
             views = 202_999
         ),
         Post(
-            id = 1,
+            id = index++,
             author = "Нетология. Университет интернет-профессией будущего",
             content = "Привет. Это новая Нетология. Когда-то Нетология начиналась с интенсив...",
             published = "26 мая в 19:13",
@@ -115,6 +116,30 @@ class PostRepositoryInMemoryImpl : PostRepository {
                 post.copy(shares = post.shares + 1)
             } else {
                 post
+            }
+        }
+        data.value = posts
+    }
+
+    override fun removeById(id: Long) {
+        posts = posts.filter { it.id != id }
+        data.value = posts
+    }
+
+    override fun save(post: Post) {
+        posts = if (post.id == 0L) {
+            listOf(
+                post.copy(
+                    id = index++,
+                    author = "Me",
+                    published = "now"
+                )
+            ) + posts
+        } else {
+            posts.map {
+                if (post.id == it.id) {
+                    it.copy(content = post.content)
+                } else it
             }
         }
         data.value = posts

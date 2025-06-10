@@ -5,4 +5,8 @@
     <string name="description_post_shares">Число расшарирований</string>
     <string name="description_post_viewed">Число просмотров</string>
     <string name="description_post_menu">Меню поста</string>
+    <string name="remove_post">Удалить</string>
+    <string name="post_text">Текст поста</string>
+    <string name="error_empty_content">Нет текста</string>
+    <string name="edit_post">Изменить</string>
 </resources>

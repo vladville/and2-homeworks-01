@@ -15,7 +15,6 @@ android {
         versionName "1.0"
 
         buildFeatures.viewBinding = true
-
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -35,6 +34,7 @@ android {
 }
 
 dependencies {
+    implementation libs.filament.android
     def activity_version  = "1.10.1"
     def lifecycle_version = "2.9.0"
     def recyclerview_version = "1.4.0"
@@ -49,7 +49,7 @@ dependencies {
     androidTestImplementation libs.androidx.espresso.core
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version"
-    //testImplementation "android.arch.core:core-testing:$activity_version"
+    testImplementation "android.arch.core:core-testing:$activity_version"
     implementation "androidx.activity:activity-ktx:$activity_version"
     implementation "androidx.recyclerview:recyclerview:$recyclerview_version"
 }
