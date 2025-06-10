@@ -44,7 +44,7 @@ class MainActivity : AppCompatActivity() {
         binding.list.adapter = adapter
 
         viewModel.data.observe(this) { posts ->
-            val isNew = posts.size != adapter.itemCount
+            val isNew = posts.size > adapter.itemCount //only if add operation
             adapter.submitList(posts) {
                 if (isNew) {
                     binding.list.smoothScrollToPosition(0)
