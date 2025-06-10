@@ -1,6 +1,7 @@
 package ru.netology.nmedia.adapter
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupMenu
 import androidx.recyclerview.widget.DiffUtil
@@ -11,10 +12,10 @@ import ru.netology.nmedia.databinding.CardPostBinding
 import ru.netology.nmedia.dto.Post
 import ru.netology.nmedia.dto.numbersToThousands
 
-typealias OnLikeListener = (post: Post) -> Unit
-typealias OnShareListener = (post: Post) -> Unit
-typealias OnRemoveListener = (post: Post) -> Unit
-typealias OnEditListener = (post: Post) -> Unit
+//typealias OnLikeListener = (post: Post) -> Unit
+//typealias OnShareListener = (post: Post) -> Unit
+//typealias OnRemoveListener = (post: Post) -> Unit
+//typealias OnEditListener = (post: Post) -> Unit
 
 interface OnInteractorListener {
     fun onLike(post: Post)
