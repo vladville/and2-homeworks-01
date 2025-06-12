@@ -73,6 +73,7 @@ class MainActivity : AppCompatActivity() {
                 postEditGroup.visibility = View.GONE
                 content.setText("")
                 content.clearFocus()
+                viewModel.editPostCancel()
                 AndroidUtils.hideKeyboard(it)
             }
             save.setOnClickListener {
