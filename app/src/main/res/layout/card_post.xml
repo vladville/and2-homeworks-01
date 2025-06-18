@@ -84,27 +84,19 @@
         app:barrierDirection="bottom"
         app:constraint_referenced_ids="content" />
 
-    <ImageButton
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/likeIcon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/common_spacing"
-        android:background="@android:color/transparent"
+        style="@style/Style.LikeButton"
+        app:icon="@drawable/ic_like"
         android:contentDescription="@string/description_post_likes"
-        app:layout_constraintRight_toLeftOf="@+id/likeCount"
+        app:layout_constraintRight_toLeftOf="@+id/shareIcon"
         app:layout_constraintTop_toTopOf="@+id/barrier2"
-        app:srcCompat="@drawable/ic_likes" />
-
-    <TextView
-        android:id="@+id/likeCount"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/icon_data_spacing"
-        app:layout_constraintBottom_toBottomOf="@+id/likeIcon"
-        app:layout_constraintLeft_toRightOf="@+id/likeIcon"
-        app:layout_constraintStart_toEndOf="@id/likeIcon"
-        app:layout_constraintTop_toTopOf="@+id/likeIcon"
-        tools:text="@sample/posts.json/data/likes" />
+        tools:text="1"
+        android:checkable="true"
+        />
 
     <ImageButton
         android:id="@+id/shareIcon"
@@ -115,7 +107,7 @@
         android:background="@android:color/transparent"
         android:contentDescription="@string/description_post_shares"
         app:layout_constraintRight_toLeftOf="@+id/shareCount"
-        app:layout_constraintStart_toEndOf="@id/likeCount"
+        app:layout_constraintStart_toEndOf="@id/likeIcon"
         app:layout_constraintTop_toTopOf="@+id/barrier2"
         app:srcCompat="@drawable/ic_shares" />
 
