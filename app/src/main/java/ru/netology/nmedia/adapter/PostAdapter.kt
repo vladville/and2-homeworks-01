@@ -53,7 +53,7 @@ class PostViewHolder(
         author.text = post.author
         content.text = post.content
         published.text = post.published
-        shareCount.text = numbersToThousands(post.shares)
+        shareIcon.text = numbersToThousands(post.shares)
         viewCount.text = numbersToThousands(post.views)
         likeIcon.apply {
             isChecked = post.likeByMe

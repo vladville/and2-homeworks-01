@@ -47,16 +47,16 @@
         app:layout_constraintTop_toBottomOf="@id/author"
         tools:text="@sample/posts.json/data/published" />
 
-    <ImageButton
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/menu"
-        android:layout_width="wrap_content"
+        android:layout_width="24dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/common_spacing"
-        android:background="@android:color/transparent"
+        app:icon="@drawable/ic_more_vert_24"
+        style="@style/Style.MenuButton"
         android:contentDescription="@string/description_post_menu"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_more_vert_24" />
+        />
 
     <androidx.constraintlayout.widget.Barrier
         android:id="@+id/barrier"
@@ -98,29 +98,18 @@
         android:checkable="true"
         />
 
-    <ImageButton
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/shareIcon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/common_spacing"
         android:layout_marginTop="@dimen/common_spacing"
-        android:background="@android:color/transparent"
+        style="@style/Style.ShareButton"
+        app:icon="@drawable/ic_shares"
         android:contentDescription="@string/description_post_shares"
-        app:layout_constraintRight_toLeftOf="@+id/shareCount"
         app:layout_constraintStart_toEndOf="@id/likeIcon"
         app:layout_constraintTop_toTopOf="@+id/barrier2"
-        app:srcCompat="@drawable/ic_shares" />
-
-    <TextView
-        android:id="@+id/shareCount"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/icon_data_spacing"
-        app:layout_constraintBottom_toBottomOf="@+id/shareIcon"
-        app:layout_constraintLeft_toRightOf="@+id/shareIcon"
-        app:layout_constraintStart_toEndOf="@id/shareIcon"
-        app:layout_constraintTop_toTopOf="@+id/shareIcon"
-        tools:text="@sample/posts.json/data/shared" />
+        tools:text="1"
+        />
 
     <ImageButton
         android:id="@+id/viewIcon"
