@@ -9,4 +9,6 @@
     <string name="post_text">Текст поста</string>
     <string name="error_empty_content">Нет текста</string>
     <string name="edit_post">Изменить</string>
+    <string name="chooser_share_post">Поделиться</string>
+    <string name="empty_error_content">Пустой текст</string>
 </resources>

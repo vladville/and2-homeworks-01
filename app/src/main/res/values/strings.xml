@@ -9,4 +9,6 @@
     <string name="post_text">Post text</string>
     <string name="error_empty_content">Empty post text</string>
     <string name="edit_post">Edit</string>
+    <string name="chooser_share_post">Share</string>
+    <string name="empty_error_content">Text is empty</string>
 </resources>
