@@ -16,11 +16,29 @@ import ru.netology.nmedia.viewmodel.PostViewModel
 class MainActivity : AppCompatActivity() {
 
     private val viewModel: PostViewModel by viewModels()
+    private var currentEditingPost: Post? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        val newPostLauncher = registerForActivityResult(NewPostResultContract()) { content ->
+            content ?: return@registerForActivityResult
+            viewModel.changeContent(content)
+            viewModel.save()
+        }
+
+        binding.fab.setOnClickListener {
+            newPostLauncher.launch("")
+        }
+
+        val editPostLauncher = registerForActivityResult(NewPostResultContract()) { newContent ->
+            currentEditingPost?.let { post ->
+                viewModel.edit(post.copy(content = newContent.toString()))
+                viewModel.save()
+            }
+        }
 
         val adapter = PostAdapter(
             object : OnInteractorListener {
@@ -42,7 +60,9 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 override fun onEdit(post: Post) {
-                    viewModel.edit(post)
+                    //viewModel.edit(post)
+                    currentEditingPost = post
+                    editPostLauncher.launch(post.content)
                 }
 
                 override fun onRemove(post: Post) {
@@ -60,16 +80,6 @@ class MainActivity : AppCompatActivity() {
                     binding.list.smoothScrollToPosition(0)
                 }
             }
-        }
-
-        val newPostLauncher = registerForActivityResult(NewPostResultContract()) { content ->
-            content ?: return@registerForActivityResult
-            viewModel.changeContent(content)
-            viewModel.save()
-        }
-
-        binding.fab.setOnClickListener {
-            newPostLauncher.launch()
         }
 
 //        viewModel.edited.observe(this) { post ->

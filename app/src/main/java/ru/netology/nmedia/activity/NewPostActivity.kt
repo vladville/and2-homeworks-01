@@ -11,7 +11,11 @@ class NewPostActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         val binding = AcNewPostBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        val editText = intent.getStringExtra(Intent.EXTRA_TEXT)
+        binding.edit.setText(editText)
         binding.edit.requestFocus()
+
         binding.save.setOnClickListener {
             val intent = Intent()
             if (binding.edit.text.isNullOrBlank()) {
@@ -19,7 +23,7 @@ class NewPostActivity : AppCompatActivity() {
             } else {
                 val content = binding.edit.text.toString()
                 intent.putExtra(Intent.EXTRA_TEXT, content)
-                setResult(Activity.RESULT_OK, intent) //???
+                setResult(Activity.RESULT_OK, intent)
             }
 
             finish()
