@@ -24,7 +24,8 @@ class PostRepositoryInMemoryImpl : PostRepository {
             published = "03 июня в 19:13",
             likes = 999,
             shares = 9,
-            views = 202_999
+            views = 202_999,
+            video = "https://rutube.ru/video/6550a91e7e523f9503bed47e4c46d0cb"
         ),
         Post(
             id = index++,

@@ -1,9 +1,13 @@
 package ru.netology.nmedia.adapter
 
+import android.content.Intent
+import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupMenu
+import androidx.core.content.ContextCompat.startActivity
+import androidx.core.net.toUri
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -58,6 +62,15 @@ class PostViewHolder(
         likeIcon.apply {
             isChecked = post.likeByMe
             text = numbersToThousands(post.likes)
+        }
+        if (post.video.isNotEmpty()) {
+            video.visibility = View.VISIBLE
+            playVideoIcon.visibility = View.VISIBLE
+        }
+        playVideoIcon.setOnClickListener {
+            val webpage: Uri = post.video.toUri()
+            val intent = Intent(Intent.ACTION_VIEW, webpage)
+            binding.root.context.startActivity(intent)
         }
         likeIcon.setOnClickListener {
             onInteractorListener.onLike(post)

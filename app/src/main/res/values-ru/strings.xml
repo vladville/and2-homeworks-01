@@ -11,4 +11,6 @@
     <string name="edit_post">Изменить</string>
     <string name="chooser_share_post">Поделиться</string>
     <string name="empty_error_content">Пустой текст</string>
+    <string name="video_description">Видео блок</string>
+    <string name="video_play_icon">Смотреть</string>
 </resources>

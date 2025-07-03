@@ -60,7 +60,6 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 override fun onEdit(post: Post) {
-                    //viewModel.edit(post)
                     currentEditingPost = post
                     editPostLauncher.launch(post.content)
                 }
