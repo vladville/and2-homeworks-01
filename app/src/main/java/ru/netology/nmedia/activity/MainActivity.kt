@@ -1,10 +1,12 @@
 package ru.netology.nmedia.activity
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import androidx.activity.result.launch
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.net.toUri
 import ru.netology.nmedia.activity.NewPostResultContract
 import ru.netology.nmedia.R
 import ru.netology.nmedia.adapter.OnInteractorListener
@@ -16,28 +18,28 @@ import ru.netology.nmedia.viewmodel.PostViewModel
 class MainActivity : AppCompatActivity() {
 
     private val viewModel: PostViewModel by viewModels()
-    private var currentEditingPost: Post? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val newPostLauncher = registerForActivityResult(NewPostResultContract()) { content ->
-            content ?: return@registerForActivityResult
-            viewModel.changeContent(content)
-            viewModel.save()
+        val changePostLauncher = registerForActivityResult(NewPostResultContract()) { content ->
+            if (content == null) {
+                viewModel.edited.value = Post(
+                    id = 0,
+                    author = "",
+                    content = "",
+                    published = "",
+                )
+            } else {
+                viewModel.changeContent(content)
+                viewModel.save()
+            }
         }
 
         binding.fab.setOnClickListener {
-            newPostLauncher.launch("")
-        }
-
-        val editPostLauncher = registerForActivityResult(NewPostResultContract()) { newContent ->
-            currentEditingPost?.let { post ->
-                viewModel.edit(post.copy(content = newContent.toString()))
-                viewModel.save()
-            }
+            changePostLauncher.launch("")
         }
 
         val adapter = PostAdapter(
@@ -59,9 +61,15 @@ class MainActivity : AppCompatActivity() {
                     startActivity(intent2)
                 }
 
+                override fun onVideoPlay(post: Post ) {
+                    val webpage: Uri = post.video.toUri()
+                    val intent = Intent(Intent.ACTION_VIEW, webpage)
+                    startActivity(intent)
+                }
+
                 override fun onEdit(post: Post) {
-                    currentEditingPost = post
-                    editPostLauncher.launch(post.content)
+                    viewModel.edit(post)
+                    changePostLauncher.launch(post.content)
                 }
 
                 override fun onRemove(post: Post) {
