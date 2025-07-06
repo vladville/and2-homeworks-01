@@ -26,12 +26,7 @@ class MainActivity : AppCompatActivity() {
 
         val changePostLauncher = registerForActivityResult(NewPostResultContract()) { content ->
             if (content == null) {
-                viewModel.edited.value = Post(
-                    id = 0,
-                    author = "",
-                    content = "",
-                    published = "",
-                )
+                viewModel.editPostCancel()
             } else {
                 viewModel.changeContent(content)
                 viewModel.save()
