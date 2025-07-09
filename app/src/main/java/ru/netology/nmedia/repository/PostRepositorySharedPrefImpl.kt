@@ -16,7 +16,7 @@ class PostRepositorySharedPrefImpl(context: Context): PostRepository {
         set(value) {
             field = value
             sync()
-            data.value = posts
+            data.value = field
         }
     private var data = MutableLiveData(posts)
 

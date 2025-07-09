@@ -20,7 +20,7 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
     val data: LiveData<List<Post>> = repository.get()
     val edited = MutableLiveData(empty)
     fun like(id: Long) = repository.like(id)
-    //fun share(id: Long) = repository.share(id)
+    fun share(id: Long) = repository.share(id)
     fun removeById(id: Long) = repository.removeById(id)
 
     fun changeContent(content: String) {
