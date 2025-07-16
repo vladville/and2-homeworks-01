@@ -75,10 +75,10 @@ class OnePostFragment : Fragment() {
 
         viewModel.edited.observe(viewLifecycleOwner) {
             if (it.id != 0L) {
-                viewModel.editPostCancel()
                 findNavController().navigate(
                     R.id.action_onePostFragment_to_newPostFragment,
                     Bundle().apply {
+                        putLong("id", it.id)
                         textArgs = it.content
                     }
                 )

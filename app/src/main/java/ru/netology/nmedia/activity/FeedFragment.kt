@@ -79,6 +79,7 @@ class FeedFragment : Fragment() {
                 }
 
                 override fun onOpen(post: Post) {
+                    viewModel.editPostCancel()
                     findNavController().navigate(
                         R.id.action_feedFragment_to_onePostFragment,
                         Bundle().apply {
