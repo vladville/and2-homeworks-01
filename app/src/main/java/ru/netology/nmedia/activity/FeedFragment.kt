@@ -35,6 +35,7 @@ class FeedFragment : Fragment() {
         val viewModel: PostViewModel by viewModels(ownerProducer = ::requireParentFragment)
 
         binding.fab.setOnClickListener {
+            viewModel.editPostCancel()
             findNavController().navigate(R.id.action_feedFragment_to_newPostFragment)
         }
 

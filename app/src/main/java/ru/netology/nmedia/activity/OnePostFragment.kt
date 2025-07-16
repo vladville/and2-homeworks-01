@@ -78,7 +78,6 @@ class OnePostFragment : Fragment() {
                 findNavController().navigate(
                     R.id.action_onePostFragment_to_newPostFragment,
                     Bundle().apply {
-                        putLong("id", it.id)
                         textArgs = it.content
                     }
                 )
