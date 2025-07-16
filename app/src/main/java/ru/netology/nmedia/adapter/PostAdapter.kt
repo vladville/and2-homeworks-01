@@ -23,6 +23,7 @@ interface OnInteractorListener {
     fun onEdit(post: Post)
     fun onRemove(post: Post)
     fun onVideoPlay(post: Post)
+    fun onOpen(post: Post)
 }
 
 class PostAdapter(
@@ -92,6 +93,9 @@ class PostViewHolder(
                     }
                 }
             }.show()
+        }
+        root.setOnClickListener {
+            onInteractorListener.onOpen(post)
         }
     }
 }

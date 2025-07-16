@@ -78,6 +78,15 @@ class FeedFragment : Fragment() {
                     viewModel.removeById(post.id)
                 }
 
+                override fun onOpen(post: Post) {
+                    findNavController().navigate(
+                        R.id.action_feedFragment_to_onePostFragment,
+                        Bundle().apply {
+                            textArgs = post.id.toString()
+                        }
+                    )
+                }
+
             }
         )
 
