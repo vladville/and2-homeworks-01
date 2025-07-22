@@ -71,6 +71,9 @@ class NewPostFragment : Fragment() {
                         }
                     }
 
+                    viewModel.editPostCancel()
+                    //findNavController().navigateUp()
+
                     if (isEnabled) {
                         isEnabled = false
                         requireActivity().onBackPressed()
