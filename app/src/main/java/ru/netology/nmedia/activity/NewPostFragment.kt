@@ -60,7 +60,7 @@ class NewPostFragment : Fragment() {
         }
 
         requireActivity().onBackPressedDispatcher.addCallback(
-            this,
+            viewLifecycleOwner,
             object : OnBackPressedCallback(true) {
                 override fun handleOnBackPressed() {
 
