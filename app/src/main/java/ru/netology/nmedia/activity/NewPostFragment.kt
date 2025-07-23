@@ -31,7 +31,7 @@ class NewPostFragment : Fragment() {
         val viewModel: PostViewModel by viewModels(ownerProducer = ::requireParentFragment)
 
         //check is it new post?
-        val isNewPost = arguments?.textArgs.isNullOrEmpty()
+        val isNewPost = viewModel.isNewPost()
         val pref = context?.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE)
         if (isNewPost) {
             pref?.getString(CONTENT_KEY, null)?.let { text ->

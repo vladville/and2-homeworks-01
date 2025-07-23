@@ -49,4 +49,8 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
     fun editPostCancel() {
         edited.value = empty
     }
+
+    fun isNewPost(): Boolean {
+        return edited.value?.id == 0L
+    }
 }
