@@ -53,11 +53,11 @@ class OnePostFragment : Fragment() {
                 startActivity(intent2)
             }
 
-            override fun onVideoPlay(post: Post) {
+            /*override fun onVideoPlay(post: Post) {
                 val webpage: Uri = post.video.toUri()
                 val intent = Intent(Intent.ACTION_VIEW, webpage)
                 startActivity(intent)
-            }
+            }*/
 
             override fun onEdit(post: Post) {
                 viewModel.edit(post)
@@ -85,13 +85,13 @@ class OnePostFragment : Fragment() {
         }
 
         val id = arguments?.textArgs?.toLong() ?: -1
-        viewModel.data.observe(viewLifecycleOwner) { posts ->
+        /*viewModel.data.observe(viewLifecycleOwner) { posts ->
             val post = posts.find { it.id == id } ?: run {
                 findNavController().navigateUp()
                 return@observe
             }
             viewHolder.bind(post)
-        }
+        }*/
 
         return binding.root
     }

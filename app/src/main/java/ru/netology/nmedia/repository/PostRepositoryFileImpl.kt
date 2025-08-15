@@ -1,4 +1,4 @@
-package ru.netology.nmedia.repository
+/*package ru.netology.nmedia.repository
 
 import android.content.Context
 import androidx.core.content.edit
@@ -94,4 +94,4 @@ class PostRepositoryFileImpl(private val context: Context) : PostRepository {
         private val type = TypeToken.getParameterized(List::class.java, Post::class.java).type
     }
 
-}
+}*/

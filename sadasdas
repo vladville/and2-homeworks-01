@@ -1,0 +1,45 @@
+[33mc91592d[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m)[m Add Room instead SQLite hardcore code
+[33m91bb7a4[m Chek is it new post or edited by viewModel
+[33m6bc8f71[m Fix 2: Add post unfinished content text save and fix back after edit post
+[33m2a13439[m Fix: Add post unfinished content text save and fix back after edit post
+[33ma28305e[m Add post unfinished content text save and fix back after edit post
+[33m1380169[m Add saving post text
+[33m00dcd10[m Add SQLite
+[33m10c363a[m A liitle bit fix for new post fragment
+[33m1ad0b76[m Fix edit post from post detail fragment
+[33m254cda6[m Add post detail fragment
+[33m956f203[m Fragments webinar work
+[33m3ed7daf[m onShare fix
+[33mb9b6915[m File storage added
+[33mcb0e375[m Shared Pref added
+[33m7745386[m Fix edit post
+[33mb34ac0d[m A little bit fix
+[33mc089f93[m Video post added
+[33mb3a22db[m Editing functional added
+[33m2a8512d[m A little bit fix
+[33m50df2c5[m Add new post activiti and intents
+[33mdedc3cd[m Add Material Share and Menu Buttons
+[33m808258e[m Add Material Like button
+[33m8914e1d[m Fix after edit cancel problem
+[33m05683aa[m Add edit preview field
+[33m464269b[m A little bit fix. Gradle modify and other fix
+[33m1e05674[m A little bit fix
+[33mc7d88b0[m CRUD added
+[33m375d01e[m Fix
+[33m9f977d6[m DiffUtil object replaced from MainActivity.kt to PostAdapter.kt
+[33mbe8dd88[m Add RecyclerView
+[33m0c3989a[m Fix var to val
+[33md464305[m Used Mvvm
+[33mdeecb1c[m Add fill liked icon. Add OnclickListeners to buttons.
+[33m2981a9e[m New view icon
+[33m7506e10[m Task 03_constraint_layout done - a little bit fix 4
+[33mfad21c0[m Task 03_constraint_layout done - a little bit fix 3
+[33m4bdc5d2[m Task 03_constraint_layout done - a little bit fix 2
+[33m67bc545[m Task 03_constraint_layout done - a little bit fix 1
+[33m57f0638[m Task 03_constraint_layout done
+[33m7c764fe[m Add launcher icon and localization
+[33m217ec85[m Add launcher icon and localization
+[33me95d896[m Add launche icon and localization
+[33m8e56c34[m Try to create apk file by actions
+[33m663116f[m Create manual.yml
+[33m37a54e3[m Initial commit

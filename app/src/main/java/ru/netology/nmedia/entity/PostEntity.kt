@@ -26,7 +26,7 @@ data class PostEntity (
         likeByMe = likeByMe,
         shares = shares,
         views = views,
-        video = video
+        //video = video
     )
 
     companion object {
@@ -40,7 +40,7 @@ data class PostEntity (
                likeByMe = likeByMe,
                shares = shares,
                views = views,
-               video = video
+               //video = video
            )
        }
     }
@@ -55,5 +55,5 @@ fun Post.toEntity() = PostEntity(
     likeByMe = likeByMe,
     shares = shares,
     views = views,
-    video = video
+    //video = video
 )

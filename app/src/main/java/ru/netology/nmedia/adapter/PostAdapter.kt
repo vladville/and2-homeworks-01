@@ -12,17 +12,12 @@ import ru.netology.nmedia.databinding.CardPostBinding
 import ru.netology.nmedia.dto.Post
 import ru.netology.nmedia.dto.numbersToThousands
 
-//typealias OnLikeListener = (post: Post) -> Unit
-//typealias OnShareListener = (post: Post) -> Unit
-//typealias OnRemoveListener = (post: Post) -> Unit
-//typealias OnEditListener = (post: Post) -> Unit
-
 interface OnInteractorListener {
     fun onLike(post: Post)
     fun onShare(post: Post)
     fun onEdit(post: Post)
     fun onRemove(post: Post)
-    fun onVideoPlay(post: Post)
+    //fun onVideoPlay(post: Post)
     fun onOpen(post: Post)
 }
 
@@ -61,13 +56,14 @@ class PostViewHolder(
             isChecked = post.likeByMe
             text = numbersToThousands(post.likes)
         }
-        if (post.video.isNotEmpty()) {
+        //if (post.video.isNotEmpty()) {
+        /*if (!post.video.isNullOrBlank()) {
             video.visibility = View.VISIBLE
             playVideoIcon.visibility = View.VISIBLE
-        }
-        playVideoIcon.setOnClickListener {
+        }*/
+        /*playVideoIcon.setOnClickListener {
             onInteractorListener.onVideoPlay(post)
-        }
+        }*/
         likeIcon.setOnClickListener {
             onInteractorListener.onLike(post)
         }

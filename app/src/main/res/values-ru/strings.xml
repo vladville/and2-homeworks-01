@@ -13,4 +13,7 @@
     <string name="empty_error_content">Пустой текст</string>
     <string name="video_description">Видео блок</string>
     <string name="video_play_icon">Смотреть</string>
+    <string name="network_error">Ошибка сети</string>
+    <string name="retry">Повторить</string>
+    <string name="no_posts">Постов нет</string>
 </resources>

@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" >
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 
     <application
         android:allowBackup="true"
@@ -11,20 +14,17 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.NMedia"
-        tools:targetApi="31" >
+        android:usesCleartextTraffic="${usesCleartextTraffic}"
+        tools:targetApi="31">
         <activity
             android:name=".activity.AppActivity"
-            android:exported="true" >
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
-                    <action android:name="android.intent.action.VIEW" />
-                    <!-- Include the host attribute if you want your app to respond
-                         only to URLs with your app's domain. -->
-                    <data android:scheme="http" android:host="www.example.com" />
-                    <category android:name="android.intent.category.DEFAULT" />
-                    <!-- The BROWSABLE category is required to get links from web pages. -->
-                    <category android:name="android.intent.category.BROWSABLE" />
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
             </intent-filter>
         </activity>
 
