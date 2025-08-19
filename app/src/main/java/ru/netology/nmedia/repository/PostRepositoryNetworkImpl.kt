@@ -35,26 +35,32 @@ class PostRepositoryNetworkImpl : PostRepository {
             }
     }
 
-    override fun like(id: Long) {
+    override fun like(id: Long): Post {
         val request: Request = Request.Builder()
             .post(gson.toJson(id).toRequestBody(jsonType))
             .url("${BASE_URL}/api/slow/posts/$id/likes")
             .build()
 
-        client.newCall(request)
+        return client.newCall(request)
             .execute()
-            .close()
+            .let { it.body?.string() ?: throw RuntimeException("body is null") }
+            .let {
+                gson.fromJson(it, Post::class.java)
+            }
     }
 
-    override fun unlike(id: Long) {
+    override fun unlike(id: Long): Post {
         val request: Request = Request.Builder()
             .delete()
             .url("${BASE_URL}/api/slow/posts/$id/likes")
             .build()
 
-        client.newCall(request)
+        return client.newCall(request)
             .execute()
-            .close()
+            .let { it.body?.string() ?: throw RuntimeException("body is null") }
+            .let {
+                gson.fromJson(it, Post::class.java)
+            }
     }
 
     override fun share(id: Long) {

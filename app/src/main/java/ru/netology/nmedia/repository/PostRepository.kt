@@ -6,8 +6,8 @@ import ru.netology.nmedia.entity.PostEntity
 
 interface PostRepository {
     fun get(): List<Post>
-    fun like(id: Long)
-    fun unlike(id: Long)
+    fun like(id: Long): Post
+    fun unlike(id: Long): Post
     fun share(id: Long)
     fun removeById(id: Long)
     fun save(post: Post): Post

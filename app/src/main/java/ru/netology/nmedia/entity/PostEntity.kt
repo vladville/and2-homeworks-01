@@ -12,7 +12,7 @@ data class PostEntity (
     val content: String,
     val published: String,
     val likes: Int = 0,
-    val likeByMe: Boolean = false,
+    val likedByMe: Boolean = false,
     val shares: Int = 0,
     val views: Int = 0,
     val video: String = "",
@@ -23,7 +23,7 @@ data class PostEntity (
         content = content,
         published = published,
         likes = likes,
-        likeByMe = likeByMe,
+        likedByMe = likedByMe,
         shares = shares,
         views = views,
         //video = video
@@ -37,7 +37,7 @@ data class PostEntity (
                content = content,
                published = published,
                likes = likes,
-               likeByMe = likeByMe,
+               likedByMe = likedByMe,
                shares = shares,
                views = views,
                //video = video
@@ -52,7 +52,7 @@ fun Post.toEntity() = PostEntity(
     content = content,
     published = published,
     likes = likes,
-    likeByMe = likeByMe,
+    likedByMe = likedByMe,
     shares = shares,
     views = views,
     //video = video

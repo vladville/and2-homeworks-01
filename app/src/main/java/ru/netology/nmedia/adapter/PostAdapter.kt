@@ -53,7 +53,7 @@ class PostViewHolder(
         shareIcon.text = numbersToThousands(post.shares)
         viewCount.text = numbersToThousands(post.views)
         likeIcon.apply {
-            isChecked = post.likeByMe
+            isChecked = post.likedByMe
             text = numbersToThousands(post.likes)
         }
         //if (post.video.isNotEmpty()) {

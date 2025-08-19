@@ -87,12 +87,12 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
                 _data.value?.copy(
                     posts = _data.value?.posts.orEmpty().map { post ->
                         if (post.id == id) {
-                            if (!post.likeByMe) {
+                            if (!post.likedByMe) {
                                 repository.like(id)
-                                post.copy(likeByMe = true, likes = post.likes + 1)
+                                //post.copy(likedByMe = true, likes = post.likes + 1)
                             } else {
                                 repository.unlike(id)
-                                post.copy(likeByMe = false, likes = post.likes - 1)
+                                //post.copy(likedByMe = false, likes = post.likes - 1)
                             }
                         } else {
                             post
