@@ -2,11 +2,15 @@ package ru.netology.nmedia.repository
 
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import okhttp3.Call
 import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.Callback
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.RequestBody.Companion.toRequestBody
+import okhttp3.Response
 import ru.netology.nmedia.dto.Post
+import java.io.IOException
 import java.util.concurrent.TimeUnit
 
 class PostRepositoryNetworkImpl : PostRepository {
@@ -35,6 +39,29 @@ class PostRepositoryNetworkImpl : PostRepository {
             }
     }
 
+    override fun getAllAsync(callback: PostRepository.GetAllCallback) {
+        val request: Request = Request.Builder()
+            .url("${BASE_URL}/api/slow/posts")
+            .build()
+
+        client.newCall(request)
+            .enqueue(object : Callback {
+                override fun onResponse(call: Call, response: Response) {
+                    try {
+                        val posts =
+                            response.body?.string() ?: throw RuntimeException("body is null")
+                        callback.onSuccess(gson.fromJson(posts, typeToken.type))
+                    } catch (e: Exception) {
+                        callback.onError(e)
+                    }
+                }
+
+                override fun onFailure(call: Call, e: IOException) {
+                    callback.onError(e)
+                }
+            })
+    }
+
     override fun like(id: Long): Post {
         val request: Request = Request.Builder()
             .post(gson.toJson(id).toRequestBody(jsonType))
@@ -47,6 +74,30 @@ class PostRepositoryNetworkImpl : PostRepository {
             .let {
                 gson.fromJson(it, Post::class.java)
             }
+    }
+
+    override fun setLikeAsync(id: Long, callback: PostRepository.SetLikeCallback) {
+        val request: Request = Request.Builder()
+            .post(gson.toJson(id).toRequestBody(jsonType))
+            .url("${BASE_URL}/api/slow/posts/$id/likes")
+            .build()
+
+        client.newCall(request)
+            .enqueue(object : Callback {
+                override fun onResponse(call: Call, response: Response) {
+                    try {
+                        val post =
+                            response.body?.string() ?: throw RuntimeException("body is null")
+                        callback.onSuccess(gson.fromJson(post, Post::class.java))
+                    } catch (e: Exception) {
+                        callback.onError(e)
+                    }
+                }
+
+                override fun onFailure(call: Call, e: IOException) {
+                    callback.onError(e)
+                }
+            })
     }
 
     override fun unlike(id: Long): Post {
@@ -63,11 +114,35 @@ class PostRepositoryNetworkImpl : PostRepository {
             }
     }
 
+    override fun setUnlikeAsync(id: Long, callback: PostRepository.SetUnLikeCallback) {
+        val request: Request = Request.Builder()
+            .delete()
+            .url("${BASE_URL}/api/slow/posts/$id/likes")
+            .build()
+
+        client.newCall(request)
+            .enqueue(object : Callback {
+                override fun onResponse(call: Call, response: Response) {
+                    try {
+                        val post =
+                            response.body?.string() ?: throw RuntimeException("body is null")
+                        callback.onSuccess(gson.fromJson(post, Post::class.java))
+                    } catch (e: Exception) {
+                        callback.onError(e)
+                    }
+                }
+
+                override fun onFailure(call: Call, e: IOException) {
+                    callback.onError(e)
+                }
+            })
+    }
+
     override fun share(id: Long) {
 //        return dao.share(id)
     }
 
-    override fun save(post: Post):Post {
+    override fun save(post: Post): Post {
         val request: Request = Request.Builder()
             .post(gson.toJson(post).toRequestBody(jsonType))
             .url("${BASE_URL}/api/slow/posts")
