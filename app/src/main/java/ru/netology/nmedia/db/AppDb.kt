@@ -1,4 +1,4 @@
-package ru.netology.nmedia.db
+/*package ru.netology.nmedia.db
 
 import android.content.Context
 import androidx.room.Database
@@ -44,4 +44,4 @@ abstract class AppDb : RoomDatabase() {
 //    override fun onDowngrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
 //        TODO("Not implemented")
 //    }
-//}
+//}*/

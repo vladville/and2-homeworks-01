@@ -114,12 +114,6 @@ class FeedFragment : Fragment() {
         errorMergeBinding.retry.setOnClickListener{
             viewModel.loadPosts()
         }
-        /*{
-            if (isNew) {
-                binding.list.smoothScrollToPosition(0)
-            }
-        }*/
-        //}
 
         return binding.root
     }

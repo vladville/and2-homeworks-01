@@ -1,14 +1,16 @@
-package ru.netology.nmedia.entity
+/*package ru.netology.nmedia.entity
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import ru.netology.nmedia.dto.Post
+import kotlin.String
 
 @Entity(tableName = "posts")
 data class PostEntity (
     @PrimaryKey(autoGenerate = true)
     val id: Long,
     val author: String,
+    val authorAvatar: String,
     val content: String,
     val published: String,
     val likes: Int = 0,
@@ -20,6 +22,7 @@ data class PostEntity (
     fun toDto() = Post(
         id = id,
         author = author,
+        authorAvatar = authorAvatar,
         content = content,
         published = published,
         likes = likes,
@@ -34,6 +37,7 @@ data class PostEntity (
            PostEntity(
                id = id,
                author = author,
+               authorAvatar = authorAvatar,
                content = content,
                published = published,
                likes = likes,
@@ -49,6 +53,7 @@ data class PostEntity (
 fun Post.toEntity() = PostEntity(
     id = id,
     author = author,
+    authorAvatar = authorAvatar,
     content = content,
     published = published,
     likes = likes,
@@ -56,4 +61,4 @@ fun Post.toEntity() = PostEntity(
     shares = shares,
     views = views,
     //video = video
-)
+)*/

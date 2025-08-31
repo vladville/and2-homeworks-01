@@ -1,13 +1,13 @@
 package ru.netology.nmedia.adapter
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupMenu
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import ru.netology.nmedia.R
+import ru.netology.nmedia.dto.load
 import ru.netology.nmedia.databinding.CardPostBinding
 import ru.netology.nmedia.dto.Post
 import ru.netology.nmedia.dto.numbersToThousands
@@ -56,6 +56,10 @@ class PostViewHolder(
             isChecked = post.likedByMe
             text = numbersToThousands(post.likes)
         }
+        if (post.authorAvatar.isNotEmpty()) {
+            avatar.load("http://10.0.2.2:9999/avatars/" + post.authorAvatar)
+        }
+
         //if (post.video.isNotEmpty()) {
         /*if (!post.video.isNullOrBlank()) {
             video.visibility = View.VISIBLE
