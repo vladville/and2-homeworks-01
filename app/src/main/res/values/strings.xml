@@ -16,4 +16,6 @@
     <string name="network_error">Network error</string>
     <string name="retry">Retry</string>
     <string name="no_posts">No posts</string>
+    <string name="attachment_description">Attachment description text</string>
+    string/attachment_description
 </resources>
