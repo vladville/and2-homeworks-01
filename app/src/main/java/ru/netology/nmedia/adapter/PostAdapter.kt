@@ -68,6 +68,8 @@ class PostViewHolder(
             if (!post.attachment?.description.isNullOrBlank()) {
                 attachment.contentDescription = post.attachment?.description
             }
+        } else {
+            attachment.visibility = View.GONE
         }
         //if (post.video.isNotEmpty()) {
         /*if (!post.video.isNullOrBlank()) {

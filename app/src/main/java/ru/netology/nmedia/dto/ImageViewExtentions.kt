@@ -5,7 +5,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import ru.netology.nmedia.R
 
-fun ImageView.load(url: String, radius: Int=30 ) {
+fun ImageView.load(url: String, radius: Int = 100) {
 
     Glide.with(this)
         .load(url)
