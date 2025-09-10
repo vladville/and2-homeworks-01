@@ -20,11 +20,11 @@ interface PostRepository {
 
     interface SetLikeCallback {
         fun onSuccess(post: Post)
-        fun onError(e: Exception)
+        fun onError(e: Throwable)
     }
 
     interface SetUnLikeCallback {
         fun onSuccess(post: Post)
-        fun onError(e: Exception)
+        fun onError(e: Throwable)
     }
 }

@@ -1,5 +1,6 @@
 package ru.netology.nmedia.repository
 
+import android.widget.Toast
 import retrofit2.Callback
 import ru.netology.nmedia.api.PostApi
 import ru.netology.nmedia.dto.Post
@@ -26,6 +27,7 @@ class PostRepositoryNetworkImpl : PostRepository {
                     }
 
                     val posts = response.body()
+
                     if (posts == null) {
                         callback.onError(RuntimeException("Body is null"))
                         return
@@ -44,80 +46,67 @@ class PostRepositoryNetworkImpl : PostRepository {
             })
     }
 
-    /*override fun like(id: Long): Post {
-        val request: Request = Request.Builder()
-            .post(gson.toJson(id).toRequestBody(jsonType))
-            .url("${BASE_URL}/api/slow/posts/$id/likes")
-            .build()
-
-        return client.newCall(request)
-            .execute()
-            .let { it.body?.string() ?: throw RuntimeException("body is null") }
-            .let {
-                gson.fromJson(it, Post::class.java)
-            }
-    }*/
-
     override fun setLikeAsync(id: Long, callback: PostRepository.SetLikeCallback) {
-        /*val request: Request = Request.Builder()
-            .post(gson.toJson(id).toRequestBody(jsonType))
-            .url("${BASE_URL}/api/slow/posts/$id/likes")
-            .build()
 
-        client.newCall(request)
-            .enqueue(object : Callback {
-                override fun onResponse(call: Call, response: Response) {
-                    try {
-                        val post =
-                            response.body?.string() ?: throw RuntimeException("body is null")
-                        callback.onSuccess(gson.fromJson(post, Post::class.java))
-                    } catch (e: Exception) {
-                        callback.onError(e)
+        PostApi.service.setLike(id)
+            .enqueue(object : Callback<Post> {
+                override fun onResponse(
+                    call: retrofit2.Call<Post>,
+                    response: retrofit2.Response<Post>
+                ) {
+                    if (!response.isSuccessful) {
+                        callback.onError(RuntimeException(response.errorBody()?.string()))
+                        return
                     }
+
+                    val post = response.body()
+                    if (post == null) {
+                        callback.onError(RuntimeException("Body is null"))
+                        return
+                    }
+
+                    callback.onSuccess(post)
                 }
 
-                override fun onFailure(call: Call, e: IOException) {
-                    callback.onError(e)
+                override fun onFailure(
+                    call: retrofit2.Call<Post>,
+                    t: Throwable
+                ) {
+                    callback.onError(t)
                 }
-            })*/
+            })
     }
 
-    /*override fun unlike(id: Long): Post {
-        val request: Request = Request.Builder()
-            .delete()
-            .url("${BASE_URL}/api/slow/posts/$id/likes")
-            .build()
-
-        return client.newCall(request)
-            .execute()
-            .let { it.body?.string() ?: throw RuntimeException("body is null") }
-            .let {
-                gson.fromJson(it, Post::class.java)
-            }
-    }*/
-
     override fun setUnlikeAsync(id: Long, callback: PostRepository.SetUnLikeCallback) {
-        /*val request: Request = Request.Builder()
-            .delete()
-            .url("${BASE_URL}/api/slow/posts/$id/likes")
-            .build()
 
-        client.newCall(request)
-            .enqueue(object : Callback {
-                override fun onResponse(call: Call, response: Response) {
-                    try {
-                        val post =
-                            response.body?.string() ?: throw RuntimeException("body is null")
-                        callback.onSuccess(gson.fromJson(post, Post::class.java))
-                    } catch (e: Exception) {
-                        callback.onError(e)
+        PostApi.service.setUnlike(id)
+            .enqueue(object : Callback<Post> {
+                override fun onResponse(
+                    call: retrofit2.Call<Post>,
+                    response: retrofit2.Response<Post>
+                ) {
+                    if (!response.isSuccessful) {
+                        callback.onError(RuntimeException(response.errorBody()?.string()))
+                        return
                     }
+
+                    val post = response.body()
+                    if (post == null) {
+                        callback.onError(RuntimeException("Body is null"))
+                        return
+                    }
+
+                    callback.onSuccess(post)
                 }
 
-                override fun onFailure(call: Call, e: IOException) {
-                    callback.onError(e)
+                override fun onFailure(
+                    call: retrofit2.Call<Post>,
+                    t: Throwable
+                ) {
+                    callback.onError(t)
                 }
-            })*/
+
+            })
     }
 
     override fun share(id: Long) {

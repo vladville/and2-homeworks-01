@@ -1,16 +1,16 @@
 package ru.netology.nmedia.viewmodel
 
 import android.app.Application
+import android.widget.Toast
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.application
 import ru.netology.nmedia.dto.Post
 import ru.netology.nmedia.model.FeedModel
 import ru.netology.nmedia.repository.PostRepository
 import ru.netology.nmedia.repository.PostRepositoryNetworkImpl
 import ru.netology.nmedia.utils.SingleLiveEvent
-import kotlin.String
-import kotlin.collections.List
 import kotlin.concurrent.thread
 
 private val empty = Post(
@@ -52,7 +52,7 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
 //    }
 
     fun loadPosts() {
-        _data.postValue(FeedModel(loading = true))
+        _data.value = (FeedModel(loading = true))
         repository.getAllAsync(object : PostRepository.GetAllCallback {
             override fun onSuccess(posts: List<Post>) {
                 _data.value = (FeedModel(posts = posts, empty = posts.isEmpty()))
@@ -109,11 +109,11 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
                             val updatedPosts = refreshState.posts.map {
                                 if (it.id == post.id) post else it
                             }
-                            _data.postValue(refreshState.copy(posts = updatedPosts))
+                            _data.value = (refreshState.copy(posts = updatedPosts))
                         }
 
-                        override fun onError(e: Exception) {
-                            _data.postValue(FeedModel(error = true))
+                        override fun onError(e: Throwable) {
+                            _data.value = (FeedModel(error = true))
                         }
                     })
                 } else {
@@ -125,11 +125,11 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
                                 val updatedPosts = refreshState.posts.map {
                                     if (it.id == post.id) post else it
                                 }
-                                _data.postValue(refreshState.copy(posts = updatedPosts))
+                                _data.value = (refreshState.copy(posts = updatedPosts))
                             }
 
-                            override fun onError(e: Exception) {
-                                _data.postValue(FeedModel(error = true))
+                            override fun onError(e: Throwable) {
+                                _data.value = (FeedModel(error = true))
                             }
                         })
                 }
@@ -140,7 +140,7 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
     fun removeById(id: Long) {
         thread {
             val old = _data.value?.posts.orEmpty()
-            _data.postValue(
+            _data.value = (
                 _data.value?.copy(
                     posts = _data.value?.posts.orEmpty()
                         .filter { it.id != id }
@@ -150,7 +150,7 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
             try {
                 repository.removeById(id)
             } catch (e: Exception) {
-                _data.postValue(_data.value?.copy(posts = old))
+                _data.value = (_data.value?.copy(posts = old))
             }
         }
     }
