@@ -1,7 +1,8 @@
 package ru.netology.nmedia.repository
 
-import android.widget.Toast
+import retrofit2.Call
 import retrofit2.Callback
+import retrofit2.Response
 import ru.netology.nmedia.api.PostApi
 import ru.netology.nmedia.dto.Post
 
@@ -13,13 +14,13 @@ class PostRepositoryNetworkImpl : PostRepository {
             .let { it.body() ?: throw RuntimeException("body is null") }
     }
 
-    override fun getAllAsync(callback: PostRepository.GetAllCallback) {
+    override fun getAllAsync(callback: PostRepository.PostCallback<List<Post>>) {
 
         PostApi.service.getAll()
             .enqueue(object : Callback<List<Post>> {
                 override fun onResponse(
-                    call: retrofit2.Call<List<Post>>,
-                    response: retrofit2.Response<List<Post>>
+                    call: Call<List<Post>>,
+                    response: Response<List<Post>>
                 ) {
                     if (!response.isSuccessful) {
                         callback.onError(RuntimeException(response.errorBody()?.string()))
@@ -37,7 +38,7 @@ class PostRepositoryNetworkImpl : PostRepository {
                 }
 
                 override fun onFailure(
-                    call: retrofit2.Call<List<Post>>,
+                    call: Call<List<Post>>,
                     t: Throwable
                 ) {
                     callback.onError(t)
@@ -46,13 +47,13 @@ class PostRepositoryNetworkImpl : PostRepository {
             })
     }
 
-    override fun setLikeAsync(id: Long, callback: PostRepository.SetLikeCallback) {
+    override fun setLikeAsync(id: Long, callback: PostRepository.PostCallback<Post>) {
 
         PostApi.service.setLike(id)
             .enqueue(object : Callback<Post> {
                 override fun onResponse(
-                    call: retrofit2.Call<Post>,
-                    response: retrofit2.Response<Post>
+                    call: Call<Post>,
+                    response: Response<Post>
                 ) {
                     if (!response.isSuccessful) {
                         callback.onError(RuntimeException(response.errorBody()?.string()))
@@ -69,7 +70,7 @@ class PostRepositoryNetworkImpl : PostRepository {
                 }
 
                 override fun onFailure(
-                    call: retrofit2.Call<Post>,
+                    call: Call<Post>,
                     t: Throwable
                 ) {
                     callback.onError(t)
@@ -77,13 +78,13 @@ class PostRepositoryNetworkImpl : PostRepository {
             })
     }
 
-    override fun setUnlikeAsync(id: Long, callback: PostRepository.SetUnLikeCallback) {
+    override fun setUnlikeAsync(id: Long, callback: PostRepository.PostCallback<Post>) {
 
         PostApi.service.setUnlike(id)
             .enqueue(object : Callback<Post> {
                 override fun onResponse(
-                    call: retrofit2.Call<Post>,
-                    response: retrofit2.Response<Post>
+                    call: Call<Post>,
+                    response: Response<Post>
                 ) {
                     if (!response.isSuccessful) {
                         callback.onError(RuntimeException(response.errorBody()?.string()))
@@ -100,7 +101,7 @@ class PostRepositoryNetworkImpl : PostRepository {
                 }
 
                 override fun onFailure(
-                    call: retrofit2.Call<Post>,
+                    call: Call<Post>,
                     t: Throwable
                 ) {
                     callback.onError(t)
@@ -113,16 +114,43 @@ class PostRepositoryNetworkImpl : PostRepository {
 //        return dao.share(id)
     }
 
-    override fun save(post: Post): Post {
+    override fun save(post: Post, callback: PostRepository.PostCallback<Post>) {
         PostApi.service.save(post)
-            .execute()
+            .enqueue(object : Callback<Post> {
+                override fun onResponse(call: Call<Post>, response: Response<Post>) {
+                    if (!response.isSuccessful) {
+                        callback.onError(RuntimeException(response.errorBody()?.string()))
+                        return
+                    }
 
-        return post
+                    val body = response.body()
+                    if (body == null) {
+                        callback.onError(RuntimeException("body is null"))
+                    } else {
+                        callback.onSuccess(body)
+                    }
+
+                }
+
+                override fun onFailure(call: Call<Post>, e: Throwable) {
+                    callback.onError(e)
+                }
+            })
     }
 
-    override fun removeById(id: Long) {
+    override fun removeById(id: Long, callback: PostRepository.PostCallback<Unit>) {
         PostApi.service.removeById(id)
-            .execute()
-    }
+            .enqueue(object : Callback<Unit> {
+                override fun onResponse(
+                    call: Call<Unit>,
+                    response: Response<Unit>
+                ) {
+                    callback.onSuccess(Unit)
+                }
 
+                override fun onFailure(call: Call<Unit>, t: Throwable) {
+                    callback.onError(t)
+                }
+            })
+    }
 }

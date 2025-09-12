@@ -1,10 +1,12 @@
 package ru.netology.nmedia.activity
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -102,6 +104,20 @@ class FeedFragment : Fragment() {
             binding.progress.isVisible = state.loading
             binding.empty.isVisible = state.empty
             errorMergeBinding.errorGroup.isVisible = state.error
+
+            //error by toast
+            if (state.errorSetLike) {
+                Toast.makeText(requireContext(), R.string.network_like_error, Toast.LENGTH_LONG).show()
+                //adapter.submitList(state.posts)
+            }
+            if (state.errorUnLike) {
+                Toast.makeText(requireContext(), R.string.network_unlike_error, Toast.LENGTH_LONG).show()
+                //adapter.submitList(state.posts)
+            }
+            if (state.errorDelete) {
+                Toast.makeText(requireContext(), R.string.network_post_delete_error, Toast.LENGTH_LONG).show()
+                //adapter.submitList(state.posts)
+            }
 
             if (isNew) {
                 binding.list.smoothScrollToPosition(0)
