@@ -13,7 +13,7 @@
     <string name="empty_error_content">Text is empty</string>
     <string name="video_description">Video view block</string>
     <string name="video_play_icon">Video play icon</string>
-    <string name="network_error">Network error</string>
+    <string name="network_error">Oppps, something goes bad. Network error</string>
     <string name="retry">Retry</string>
     <string name="no_posts">No posts</string>
     <string name="attachment_description">Attachment description text</string>

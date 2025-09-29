@@ -11,6 +11,7 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.snackbar.Snackbar
 import ru.netology.nmedia.R
 import ru.netology.nmedia.adapter.OnInteractorListener
 import ru.netology.nmedia.adapter.PostAdapter
@@ -101,27 +102,41 @@ class FeedFragment : Fragment() {
         viewModel.data.observe(viewLifecycleOwner) { state ->
             val isNew = state.posts.size > adapter.itemCount //only if add operation
             adapter.submitList(state.posts)
-            binding.progress.isVisible = state.loading
             binding.empty.isVisible = state.empty
-            errorMergeBinding.errorGroup.isVisible = state.error
-
-            //error by toast
-            if (state.errorSetLike) {
-                Toast.makeText(requireContext(), R.string.network_like_error, Toast.LENGTH_LONG).show()
-                //adapter.submitList(state.posts)
-            }
-            if (state.errorUnLike) {
-                Toast.makeText(requireContext(), R.string.network_unlike_error, Toast.LENGTH_LONG).show()
-                //adapter.submitList(state.posts)
-            }
-            if (state.errorDelete) {
-                Toast.makeText(requireContext(), R.string.network_post_delete_error, Toast.LENGTH_LONG).show()
-                //adapter.submitList(state.posts)
-            }
 
             if (isNew) {
                 binding.list.smoothScrollToPosition(0)
             }
+        }
+
+        viewModel.state.observe(viewLifecycleOwner) {state ->
+            binding.progress.isVisible = state.loading
+            //errorMergeBinding.errorGroup.isVisible = state.error
+            if (state.error) {
+                Snackbar.make(binding.root, R.string.network_error, Snackbar.LENGTH_LONG)
+                    .setAction(R.string.retry) {
+                        viewModel.loadPosts()
+                    }.show()
+            }
+            binding.swipeRefresh.isRefreshing = state.refreshing
+
+            //error by toast
+            if (state.errorSetLike) {
+                Snackbar.make(binding.root, R.string.network_like_error, Snackbar.LENGTH_LONG).show()
+                //Toast.makeText(requireContext(), R.string.network_like_error, Toast.LENGTH_LONG).show()
+            }
+            if (state.errorUnLike) {
+                Snackbar.make(binding.root, R.string.network_unlike_error, Snackbar.LENGTH_LONG).show()
+                //Toast.makeText(requireContext(), R.string.network_unlike_error, Toast.LENGTH_LONG).show()
+            }
+            if (state.errorDelete) {
+                Snackbar.make(binding.root, R.string.network_post_delete_error, Snackbar.LENGTH_LONG).show()
+                //Toast.makeText(requireContext(), R.string.network_post_delete_error, Toast.LENGTH_LONG).show()
+            }
+        }
+
+        binding.swipeRefresh.setOnRefreshListener {
+            viewModel.refresh()
         }
 
         errorMergeBinding.retry.setOnClickListener{

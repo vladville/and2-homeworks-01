@@ -1,4 +1,4 @@
-/*package ru.netology.nmedia.entity
+package ru.netology.nmedia.entity
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
@@ -61,4 +61,7 @@ fun Post.toEntity() = PostEntity(
     shares = shares,
     views = views,
     //video = video
-)*/
+)
+
+fun List<PostEntity>.toDto(): List<Post> = map(PostEntity::toDto)
+fun List<Post>.toEntity(): List<PostEntity> = map(PostEntity::fromDto)
