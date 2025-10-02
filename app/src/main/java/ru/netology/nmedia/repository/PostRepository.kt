@@ -1,12 +1,10 @@
 package ru.netology.nmedia.repository
 
 import androidx.lifecycle.LiveData
+import okhttp3.Response
 import ru.netology.nmedia.dto.Post
 
 interface PostRepository {
-    //suspend fun get(): List<Post>
-    //fun like(id: Long): Post
-    //fun unlike(id: Long): Post
     val data: LiveData<List<Post>>
     suspend fun share(id: Long)
     suspend fun removeById(id: Long)

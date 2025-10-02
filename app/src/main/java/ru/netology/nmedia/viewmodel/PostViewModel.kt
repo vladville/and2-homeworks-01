@@ -76,6 +76,7 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
         edited.value?.let {
             _postCreated.value = Unit
             viewModelScope.launch {
+                _state.value = FeedModelState(loading = true)
                 try {
                     repository.save(it)
                     _state.value = FeedModelState()
@@ -124,23 +125,13 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     fun removeById(id: Long) {
-        val currentState = repository.data.value ?: return
-        var deletingPost = empty
         viewModelScope.launch {
-            //save deleting post
-            currentState.map { post ->
-                if (post.id == id) {
-                    deletingPost = post
-                }
-            }
+            _state.value = FeedModelState(loading = true)
             try {
                 repository.removeById(id)
                 _state.value = FeedModelState()
             } catch (_: Exception) {
                 _state.value = FeedModelState(errorDelete = true)
-                repository.save(deletingPost)
-                repository.getAllAsync()
-                _state.value = FeedModelState()
             }
         }
     }

@@ -1,12 +1,10 @@
 package ru.netology.nmedia.activity
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -15,7 +13,6 @@ import com.google.android.material.snackbar.Snackbar
 import ru.netology.nmedia.R
 import ru.netology.nmedia.adapter.OnInteractorListener
 import ru.netology.nmedia.adapter.PostAdapter
-import ru.netology.nmedia.databinding.ErrorViewBinding
 import ru.netology.nmedia.databinding.FragmentFeedBinding
 import ru.netology.nmedia.dto.Post
 import ru.netology.nmedia.utils.StringArg
@@ -97,8 +94,6 @@ class FeedFragment : Fragment() {
 
         binding.list.adapter = adapter
 
-        val errorMergeBinding = ErrorViewBinding.bind(binding.root)
-
         viewModel.data.observe(viewLifecycleOwner) { state ->
             val isNew = state.posts.size > adapter.itemCount //only if add operation
             adapter.submitList(state.posts)
@@ -111,7 +106,6 @@ class FeedFragment : Fragment() {
 
         viewModel.state.observe(viewLifecycleOwner) {state ->
             binding.progress.isVisible = state.loading
-            //errorMergeBinding.errorGroup.isVisible = state.error
             if (state.error) {
                 Snackbar.make(binding.root, R.string.network_error, Snackbar.LENGTH_LONG)
                     .setAction(R.string.retry) {
@@ -120,27 +114,20 @@ class FeedFragment : Fragment() {
             }
             binding.swipeRefresh.isRefreshing = state.refreshing
 
-            //error by toast
+            //error by snackbar
             if (state.errorSetLike) {
                 Snackbar.make(binding.root, R.string.network_like_error, Snackbar.LENGTH_LONG).show()
-                //Toast.makeText(requireContext(), R.string.network_like_error, Toast.LENGTH_LONG).show()
             }
             if (state.errorUnLike) {
                 Snackbar.make(binding.root, R.string.network_unlike_error, Snackbar.LENGTH_LONG).show()
-                //Toast.makeText(requireContext(), R.string.network_unlike_error, Toast.LENGTH_LONG).show()
             }
             if (state.errorDelete) {
                 Snackbar.make(binding.root, R.string.network_post_delete_error, Snackbar.LENGTH_LONG).show()
-                //Toast.makeText(requireContext(), R.string.network_post_delete_error, Toast.LENGTH_LONG).show()
             }
         }
 
         binding.swipeRefresh.setOnRefreshListener {
             viewModel.refresh()
-        }
-
-        errorMergeBinding.retry.setOnClickListener{
-            viewModel.loadPosts()
         }
 
         return binding.root

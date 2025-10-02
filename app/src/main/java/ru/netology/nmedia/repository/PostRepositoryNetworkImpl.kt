@@ -1,6 +1,7 @@
 package ru.netology.nmedia.repository
 
 import androidx.lifecycle.map
+import okhttp3.Response
 import ru.netology.nmedia.api.PostApi
 import ru.netology.nmedia.dao.PostDao
 import ru.netology.nmedia.dto.Post
@@ -11,13 +12,6 @@ class PostRepositoryNetworkImpl(
     private val dao: PostDao,
 ) : PostRepository {
 
-//    override fun get(): List<Post> {
-//        return PostApi.service.getAll()
-//            .execute()
-//            .let { it.body() ?: throw RuntimeException("body is null") }
-//    }
-
-
     override val data = dao.get().map(List<PostEntity>::toDto)
 
     override suspend fun share(id: Long) {
@@ -25,16 +19,29 @@ class PostRepositoryNetworkImpl(
     }
 
     override suspend fun removeById(id: Long) {
-        dao.removeById(id)
-        PostApi.service.removeById(id)
-        return
+        try {
+            val response = PostApi.service.removeById(id)
+            if (!response.isSuccessful) {
+                throw RuntimeException()
+            }
+            dao.removeById(id)
+        } catch (_: Exception) {
+            throw RuntimeException()
+        }
     }
 
     override suspend fun save(post: Post): Post {
-        val postFromServer = PostApi.service.save(post)
-        dao.insert(PostEntity.fromDto(postFromServer))
-
-        return postFromServer
+        try {
+            val response = PostApi.service.save(post)
+            if (!response.isSuccessful) {
+                throw RuntimeException()
+            }
+            val post = response.body() ?: throw RuntimeException()
+            dao.insert(PostEntity.fromDto(post))
+            return post
+        } catch (_: Exception) {
+            throw RuntimeException()
+        }
     }
 
     override suspend fun getAllAsync() {
@@ -43,15 +50,31 @@ class PostRepositoryNetworkImpl(
     }
 
     override suspend fun setLikeAsync(id: Long): Post {
-        val post = PostApi.service.setLike(id)
-        dao.like(id)
-        return post
+        try {
+            val response = PostApi.service.setLike(id)
+            if (!response.isSuccessful) {
+                throw RuntimeException()
+            }
+            val post = response.body() ?: throw RuntimeException()
+            dao.like(id)
+            return post
+        } catch (_: Exception) {
+            throw RuntimeException()
+        }
     }
 
     override suspend fun setUnlikeAsync(id: Long): Post {
-        val post = PostApi.service.setUnlike(id)
-        dao.like(id)
-        return post
+        try {
+            val response = PostApi.service.setUnlike(id)
+            if (!response.isSuccessful) {
+                throw RuntimeException()
+            }
+            val post = response.body() ?: throw RuntimeException()
+            dao.like(id)
+            return post
+        } catch (_: Exception) {
+            throw RuntimeException()
+        }
     }
 
     override fun isEmpty() = dao.isEmpty()
