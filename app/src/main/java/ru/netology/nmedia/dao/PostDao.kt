@@ -29,23 +29,30 @@ interface PostDao {
     suspend fun insert(posts: List<PostEntity>)
 
     @Query("UPDATE posts SET content=:content WHERE id=:id")
-    suspend fun updateById(id: Long,content: String)
+    suspend fun updateById(id: Long, content: String)
 
-    @Query("""
+    @Query(
+        """
            UPDATE posts SET
                likes = likes + CASE WHEN likedByMe THEN -1 ELSE 1 END,
                likedByMe = CASE WHEN likedByMe THEN 0 ELSE 1 END
            WHERE id = :id;
-        """)
+        """
+    )
     suspend fun like(id: Long)
 
-    @Query("""
+    @Query(
+        """
            UPDATE posts SET
                shares = shares + 1
            WHERE id = :id;
-        """)
+        """
+    )
     suspend fun share(id: Long)
 
     @Query("DELETE FROM posts WHERE id=:id")
     suspend fun removeById(id: Long)
+
+    @Query("SELECT * FROM posts WHERE sended = 0")
+    suspend fun getUnsentPost(): PostEntity?
 }

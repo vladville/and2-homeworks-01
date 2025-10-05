@@ -150,6 +150,18 @@
         tools:text="1" />
 
     <ImageButton
+        android:id="@+id/sendStatus"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginEnd="@dimen/icon_data_spacing"
+        android:background="@drawable/ic_unsend"
+        android:contentDescription="@string/post_send_status"
+        app:layout_constraintBottom_toBottomOf="@+id/viewIcon"
+        app:layout_constraintEnd_toEndOf="@+id/viewIcon"
+        app:layout_constraintEnd_toStartOf="@+id/viewIcon"
+        app:layout_constraintTop_toTopOf="@+id/viewIcon" />
+
+    <ImageButton
         android:id="@+id/viewIcon"
         android:layout_width="24dp"
         android:layout_height="24dp"

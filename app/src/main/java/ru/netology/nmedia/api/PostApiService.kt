@@ -15,8 +15,8 @@ import ru.netology.nmedia.BuildConfig
 import ru.netology.nmedia.dto.Post
 import java.util.concurrent.TimeUnit
 
-private const val BASE_URL = "${BuildConfig.BASE_URL}/api/slow/"
-private const val TIMEOUT = 1L
+private const val BASE_URL = "${BuildConfig.BASE_URL}/api/"
+private const val TIMEOUT = 0L
 private val client = OkHttpClient.Builder()
     .connectTimeout(TIMEOUT, TimeUnit.SECONDS)
     .apply {
@@ -37,7 +37,7 @@ private val retrofit = Retrofit.Builder()
 
 interface PostApiService {
     @GET("posts")
-    suspend fun getAll(): List<Post>
+    suspend fun getAll(): Response<List<Post>>
 
     @POST("posts")
     suspend fun save(@Body post: Post): Response<Post>

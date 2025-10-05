@@ -20,4 +20,5 @@
     <string name="network_like_error">Не можем установить лайк. Что-то пошло не так.</string>
     <string name="network_unlike_error">Не можем снять лайк. Что-то пошло не так.</string>
     <string name="network_post_delete_error">Ошибка при удалении поста. Что-то пошло не так.</string>
+    <string name="post_send_status">Статус отправки поста</string>
 </resources>

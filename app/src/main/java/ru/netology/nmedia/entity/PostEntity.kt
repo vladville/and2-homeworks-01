@@ -18,6 +18,7 @@ data class PostEntity (
     val shares: Int = 0,
     val views: Int = 0,
     val video: String = "",
+    val sended: Boolean = false
 ) {
     fun toDto() = Post(
         id = id,
@@ -29,6 +30,7 @@ data class PostEntity (
         likedByMe = likedByMe,
         shares = shares,
         views = views,
+        sended = sended
         //video = video
     )
 
@@ -44,6 +46,7 @@ data class PostEntity (
                likedByMe = likedByMe,
                shares = shares,
                views = views,
+               sended = sended
                //video = video
            )
        }
@@ -60,6 +63,7 @@ fun Post.toEntity() = PostEntity(
     likedByMe = likedByMe,
     shares = shares,
     views = views,
+    sended = sended
     //video = video
 )
 

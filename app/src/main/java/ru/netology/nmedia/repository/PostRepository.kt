@@ -13,4 +13,5 @@ interface PostRepository {
     suspend fun setLikeAsync(id: Long): Post
     suspend fun setUnlikeAsync(id: Long): Post
     fun isEmpty(): LiveData<Boolean>
+    suspend fun sendUnsentPost()
 }

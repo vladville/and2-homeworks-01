@@ -12,6 +12,7 @@ data class Post (
     val views: Int = 0,
     var attachment: Attachment? = null,
     //val video: String = "",
+    var sended: Boolean = false
 )
 
 enum class AttachmentType {

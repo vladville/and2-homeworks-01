@@ -58,6 +58,11 @@ class PostViewHolder(
             isChecked = post.likedByMe
             text = numbersToThousands(post.likes)
         }
+        if (!post.sended) {
+            sendStatus.setBackgroundResource(R.drawable.ic_unsend)
+        } else {
+            sendStatus.setBackgroundResource(R.drawable.ic_send)
+        }
         if (post.authorAvatar.isNotEmpty()) {
             avatar.load("http://10.0.2.2:9999/avatars/" + post.authorAvatar)
         }

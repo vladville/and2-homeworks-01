@@ -117,6 +117,7 @@ class FeedFragment : Fragment() {
             //error by snackbar
             if (state.errorSetLike) {
                 Snackbar.make(binding.root, R.string.network_like_error, Snackbar.LENGTH_LONG).show()
+
             }
             if (state.errorUnLike) {
                 Snackbar.make(binding.root, R.string.network_unlike_error, Snackbar.LENGTH_LONG).show()
