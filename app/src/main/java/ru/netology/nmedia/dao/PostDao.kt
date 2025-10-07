@@ -10,7 +10,7 @@ import ru.netology.nmedia.entity.PostEntity
 
 @Dao
 interface PostDao {
-    @Query("SELECT * FROM posts ORDER BY id DESC")
+    @Query("SELECT * FROM posts WHERE showed = 1 ORDER BY id DESC")
     fun get(): Flow<List<PostEntity>>
 
     @Query("SELECT COUNT(*) = 0 FROM posts")
@@ -56,4 +56,10 @@ interface PostDao {
 
     @Query("SELECT * FROM posts WHERE sended = 0")
     suspend fun getUnsentPost(): PostEntity?
+
+    @Query("SELECT * FROM posts WHERE showed = 0")
+    suspend fun getUnshowedPost(): List<PostEntity?>
+
+    @Query("UPDATE posts SET showed = 1 WHERE id = :id;")
+    suspend fun setShowedPost(id: Long)
 }

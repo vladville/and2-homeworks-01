@@ -15,4 +15,5 @@ interface PostRepository {
     fun isEmpty(): LiveData<Boolean>
     suspend fun sendUnsentPost()
     fun getNewerCount(id: Long): Flow<Int>
+    suspend fun getAndUpdateUnshowedPosts()
 }

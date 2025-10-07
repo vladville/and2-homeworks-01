@@ -18,7 +18,8 @@ data class PostEntity (
     val shares: Int = 0,
     val views: Int = 0,
     val video: String = "",
-    val sended: Boolean = false
+    val sended: Boolean = false,
+    val showed: Boolean = true
 ) {
     fun toDto() = Post(
         id = id,
@@ -30,26 +31,28 @@ data class PostEntity (
         likedByMe = likedByMe,
         shares = shares,
         views = views,
-        sended = sended
+        sended = sended,
+        showed = showed
         //video = video
     )
 
     companion object {
-       fun fromDto(post:Post) = post.run {
-           PostEntity(
-               id = id,
-               author = author,
-               authorAvatar = authorAvatar,
-               content = content,
-               published = published,
-               likes = likes,
-               likedByMe = likedByMe,
-               shares = shares,
-               views = views,
-               sended = sended
-               //video = video
-           )
-       }
+        fun fromDto(post:Post) = post.run {
+            PostEntity(
+                id = id,
+                author = author,
+                authorAvatar = authorAvatar,
+                content = content,
+                published = published,
+                likes = likes,
+                likedByMe = likedByMe,
+                shares = shares,
+                views = views,
+                sended = sended,
+                showed = showed
+                //video = video
+            )
+        }
     }
 }
 
@@ -63,7 +66,8 @@ fun Post.toEntity() = PostEntity(
     likedByMe = likedByMe,
     shares = shares,
     views = views,
-    sended = sended
+    sended = sended,
+    showed = showed
     //video = video
 )
 

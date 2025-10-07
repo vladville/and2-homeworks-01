@@ -37,12 +37,19 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
     val data: LiveData<FeedModel> = repository.data
         .map(::FeedModel)
         .asLiveData(Dispatchers.Default)
+
     val edited = MutableLiveData(empty)
 
     val newerCount: LiveData<Int> = data.switchMap {
         repository.getNewerCount(it.posts.firstOrNull()?.id ?: 0L)
             .catch { e -> e.printStackTrace() }
             .asLiveData(Dispatchers.Default)
+    }
+
+    fun getNewerPosts() {
+        viewModelScope.launch {
+            repository.getAndUpdateUnshowedPosts()
+        }
     }
 
     fun share(id: Long) {

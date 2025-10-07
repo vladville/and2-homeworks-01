@@ -105,11 +105,18 @@ class FeedFragment : Fragment() {
         }
 
         viewModel.newerCount.observe(viewLifecycleOwner) { state ->
-            // TODO: just log it, interaction must be in homework
+            val haveNew = state > 0
+            binding.newPostBtn.isVisible = haveNew
             println(state)
         }
 
-        viewModel.state.observe(viewLifecycleOwner) {state ->
+        binding.newPostBtn.setOnClickListener {
+            binding.newPostBtn.isVisible = false
+            viewModel.getNewerPosts()
+            binding.list.smoothScrollToPosition(0)
+        }
+
+        viewModel.state.observe(viewLifecycleOwner) { state ->
             binding.progress.isVisible = state.loading
             if (state.error) {
                 Snackbar.make(binding.root, R.string.network_error, Snackbar.LENGTH_LONG)
@@ -121,14 +128,19 @@ class FeedFragment : Fragment() {
 
             //error by snackbar
             if (state.errorSetLike) {
-                Snackbar.make(binding.root, R.string.network_like_error, Snackbar.LENGTH_LONG).show()
-
+                Snackbar.make(binding.root, R.string.network_like_error, Snackbar.LENGTH_LONG)
+                    .show()
             }
             if (state.errorUnLike) {
-                Snackbar.make(binding.root, R.string.network_unlike_error, Snackbar.LENGTH_LONG).show()
+                Snackbar.make(binding.root, R.string.network_unlike_error, Snackbar.LENGTH_LONG)
+                    .show()
             }
             if (state.errorDelete) {
-                Snackbar.make(binding.root, R.string.network_post_delete_error, Snackbar.LENGTH_LONG).show()
+                Snackbar.make(
+                    binding.root,
+                    R.string.network_post_delete_error,
+                    Snackbar.LENGTH_LONG
+                ).show()
             }
         }
 

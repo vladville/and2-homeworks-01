@@ -21,4 +21,5 @@
     <string name="network_unlike_error">Error to unset like. Something wrong.</string>
     <string name="network_post_delete_error">Error to delete post. Something wrong.</string>
     <string name="post_send_status">Post send status</string>
+    <string name="have_new_posts">Fresh posts</string>
 </resources>

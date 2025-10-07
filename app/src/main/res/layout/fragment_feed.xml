@@ -50,6 +50,23 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <Button
+            android:id="@+id/newPostBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/have_new_posts"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="@dimen/common_spacing"
+            android:backgroundTint="@color/blue"
+            android:textColor="@color/white"
+            app:icon="@drawable/ic_arrow_up"
+            app:iconTint="@color/white"
+            style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
+            android:visibility="gone"
+            />
+
         <include layout="@layout/error_view" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -58,9 +75,8 @@
         android:id="@+id/fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/common_spacing"
-        android:src="@drawable/ic_save"
         android:layout_gravity="bottom|right"
-        />
+        android:layout_margin="@dimen/common_spacing"
+        android:src="@drawable/ic_save" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
