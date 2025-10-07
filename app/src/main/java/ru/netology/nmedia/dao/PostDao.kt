@@ -5,12 +5,13 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import kotlinx.coroutines.flow.Flow
 import ru.netology.nmedia.entity.PostEntity
 
 @Dao
 interface PostDao {
     @Query("SELECT * FROM posts ORDER BY id DESC")
-    fun get(): LiveData<List<PostEntity>>
+    fun get(): Flow<List<PostEntity>>
 
     @Query("SELECT COUNT(*) = 0 FROM posts")
     fun isEmpty(): LiveData<Boolean>

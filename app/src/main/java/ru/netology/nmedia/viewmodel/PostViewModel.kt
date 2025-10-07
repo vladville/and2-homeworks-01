@@ -4,10 +4,10 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.asFlow
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import ru.netology.nmedia.db.AppDb
 import ru.netology.nmedia.dto.Post
@@ -32,8 +32,9 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
     val state: LiveData<FeedModelState>
         get() = _state
 
-    val data: LiveData<FeedModel> =
-        repository.data.asFlow().combine(repository.isEmpty().asFlow(), ::FeedModel).asLiveData()
+    val data: LiveData<FeedModel> = repository.data
+        .map(::FeedModel)
+        .asLiveData(Dispatchers.Default)
     val edited = MutableLiveData(empty)
 
     fun share(id: Long) {
@@ -102,7 +103,7 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
 
     fun like(id: Long) {
         viewModelScope.launch {
-            repository.data.value?.map { post ->
+            data.value?.posts?.map { post ->
                 if (post.id == id) {
                     if (!post.likedByMe) {
                         try {

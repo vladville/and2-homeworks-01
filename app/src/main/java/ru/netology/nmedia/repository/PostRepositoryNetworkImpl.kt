@@ -1,13 +1,18 @@
 package ru.netology.nmedia.repository
 
-import androidx.lifecycle.map
-import okhttp3.Response
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.map
 import ru.netology.nmedia.api.PostApi
 import ru.netology.nmedia.dao.PostDao
 import ru.netology.nmedia.dto.Post
 import ru.netology.nmedia.entity.PostEntity
 import ru.netology.nmedia.entity.toDto
-import kotlin.text.isNullOrBlank
+import ru.netology.nmedia.error.ApiError
+import ru.netology.nmedia.error.NetworkError
+import ru.netology.nmedia.error.UnknownError
+import java.io.IOException
 
 class PostRepositoryNetworkImpl(
     private val dao: PostDao,
@@ -15,23 +20,30 @@ class PostRepositoryNetworkImpl(
 
     val lastId = Long.MAX_VALUE
 
-    override val data = dao.get().map(List<PostEntity>::toDto)
+    override val data = dao.get()
+        .map(List<PostEntity>::toDto)
+        .flowOn(Dispatchers.Default)
 
     override suspend fun sendUnsentPost() {
         try {
             val post = dao.getUnsentPost()
             if (post != null) {
-                println("0510 " + post)
                 val response = PostApi.service.save(post.toDto().copy(0L))
                 if (!response.isSuccessful) {
-                    throw RuntimeException()
+                    throw ApiError(response.code(), response.message())
                 } else {
                     removeById(lastId)
                 }
             }
-        } catch (_: Exception) {
-            throw RuntimeException()
+        } catch (e: IOException) {
+            throw NetworkError
+        } catch (e: Exception) {
+            throw UnknownError
         }
+    }
+
+    override fun getNewerCount(id: Long): Flow<Int> {
+        TODO("Not yet implemented")
     }
 
     override suspend fun share(id: Long) {
@@ -43,10 +55,12 @@ class PostRepositoryNetworkImpl(
             dao.removeById(id)
             val response = PostApi.service.removeById(id)
             if (!response.isSuccessful) {
-                throw RuntimeException()
+                throw ApiError(response.code(), response.message())
             }
-        } catch (_: Exception) {
-            throw RuntimeException()
+        } catch (e: IOException) {
+            throw NetworkError
+        } catch (e: Exception) {
+            throw UnknownError
         }
     }
 
@@ -54,26 +68,35 @@ class PostRepositoryNetworkImpl(
         try {
             val response = PostApi.service.save(post)
             if (!response.isSuccessful) {
-                throw RuntimeException()
+                throw ApiError(response.code(), response.message())
             }
-            val post = response.body() ?: throw RuntimeException()
+            val post = response.body() ?: throw ApiError(response.code(), response.message())
             dao.insert(PostEntity.fromDto(post.copy(sended = true)))
             return post
-        } catch (_: Exception) {
+        } catch (e: IOException) {
             dao.insert(PostEntity.fromDto(post.copy(lastId)))
-            throw RuntimeException()
+            throw NetworkError
+        } catch (e: Exception) {
+            dao.insert(PostEntity.fromDto(post.copy(lastId)))
+            throw UnknownError
         }
     }
 
     override suspend fun getAllAsync() {
-        sendUnsentPost()
-        val response = PostApi.service.getAll()
-        if (!response.isSuccessful) {
-            throw RuntimeException()
+        try {
+            sendUnsentPost()
+            val response = PostApi.service.getAll()
+            if (!response.isSuccessful) {
+                throw ApiError(response.code(), response.message())
+            }
+            val posts = response.body() ?: throw ApiError(response.code(), response.message())
+            posts.forEach { it.sended = true } //update posts from server
+            dao.insert(posts.map(PostEntity::fromDto))
+        } catch (e: IOException) {
+            throw NetworkError
+        } catch (e: Exception) {
+            throw UnknownError
         }
-        val posts = response.body() ?: throw RuntimeException()
-        posts.forEach { it.sended = true } //update posts from server
-        dao.insert(posts.map(PostEntity::fromDto))
     }
 
     override suspend fun setLikeAsync(id: Long): Post {
@@ -81,13 +104,16 @@ class PostRepositoryNetworkImpl(
             dao.like(id)
             val response = PostApi.service.setLike(id)
             if (!response.isSuccessful) {
-                throw RuntimeException()
+                throw ApiError(response.code(), response.message())
             }
-            val post = response.body() ?: throw RuntimeException()
+            val post = response.body() ?: throw ApiError(response.code(), response.message())
             return post
-        } catch (_: Exception) {
+        } catch (e: IOException) {
             dao.like(id)
-            throw RuntimeException()
+            throw NetworkError
+        } catch (e: Exception) {
+            dao.like(id)
+            throw UnknownError
         }
     }
 
@@ -96,13 +122,16 @@ class PostRepositoryNetworkImpl(
             dao.like(id)
             val response = PostApi.service.setUnlike(id)
             if (!response.isSuccessful) {
-                throw RuntimeException()
+                throw ApiError(response.code(), response.message())
             }
-            val post = response.body() ?: throw RuntimeException()
+            val post = response.body() ?: throw ApiError(response.code(), response.message())
             return post
-        } catch (_: Exception) {
+        } catch (e: IOException) {
             dao.like(id)
-            throw RuntimeException()
+            throw NetworkError
+        } catch (e: Exception) {
+            dao.like(id)
+            throw UnknownError
         }
     }
 
