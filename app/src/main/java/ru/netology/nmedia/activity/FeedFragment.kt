@@ -104,6 +104,11 @@ class FeedFragment : Fragment() {
             }
         }
 
+        viewModel.newerCount.observe(viewLifecycleOwner) { state ->
+            // TODO: just log it, interaction must be in homework
+            println(state)
+        }
+
         viewModel.state.observe(viewLifecycleOwner) {state ->
             binding.progress.isVisible = state.loading
             if (state.error) {
