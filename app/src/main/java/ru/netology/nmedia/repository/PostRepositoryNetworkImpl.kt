@@ -72,10 +72,7 @@ class PostRepositoryNetworkImpl(
 
     override suspend fun getAndUpdateUnshowedPosts() {
         try {
-            val posts = dao.getUnshowedPost()
-            posts.forEach {
-                dao.setShowedPost(it!!.id)
-            }
+            dao.setShowedPost();
         } catch (e: IOException) {
             throw NetworkError
         } catch (e: Exception) {

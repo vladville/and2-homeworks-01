@@ -107,7 +107,6 @@ class FeedFragment : Fragment() {
         viewModel.newerCount.observe(viewLifecycleOwner) { state ->
             val haveNew = state > 0
             binding.newPostBtn.isVisible = haveNew
-            println(state)
         }
 
         binding.newPostBtn.setOnClickListener {
