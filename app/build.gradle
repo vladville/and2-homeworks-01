@@ -57,6 +57,7 @@ dependencies {
     def retrofitgson_version = "3.0.0"
     def okhttplogging_version = "4.9.1"
     def coroutines_version = "1.10.2"
+    def image_picker_version = "2.1"
 
     implementation libs.androidx.core.ktx
     implementation libs.androidx.appcompat
@@ -85,4 +86,5 @@ dependencies {
     implementation "com.squareup.okhttp3:logging-interceptor:$okhttplogging_version"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines_version"
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
+    implementation "com.github.dhaval2404:imagepicker:$image_picker_version"
 }

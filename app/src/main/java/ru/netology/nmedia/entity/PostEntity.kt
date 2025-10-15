@@ -1,7 +1,9 @@
 package ru.netology.nmedia.entity
 
+import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import ru.netology.nmedia.dto.Attachment
 import ru.netology.nmedia.dto.Post
 import kotlin.String
 
@@ -19,7 +21,9 @@ data class PostEntity (
     val views: Int = 0,
     val video: String = "",
     val sended: Boolean = false,
-    val showed: Boolean = true
+    val showed: Boolean = true,
+    @Embedded
+    val attachment: Attachment?,
 ) {
     fun toDto() = Post(
         id = id,
@@ -32,7 +36,8 @@ data class PostEntity (
         shares = shares,
         views = views,
         sended = sended,
-        showed = showed
+        showed = showed,
+        attachment = attachment
         //video = video
     )
 
@@ -49,7 +54,8 @@ data class PostEntity (
                 shares = shares,
                 views = views,
                 sended = sended,
-                showed = showed
+                showed = showed,
+                attachment = attachment
                 //video = video
             )
         }
@@ -67,7 +73,8 @@ fun Post.toEntity() = PostEntity(
     shares = shares,
     views = views,
     sended = sended,
-    showed = showed
+    showed = showed,
+    attachment = attachment
     //video = video
 )
 

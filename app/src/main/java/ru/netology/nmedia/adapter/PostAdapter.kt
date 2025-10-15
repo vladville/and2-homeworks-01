@@ -70,9 +70,9 @@ class PostViewHolder(
         if (!post.attachment?.url.isNullOrBlank()) {
             attachment.load("http://10.0.2.2:9999/images/" + post.attachment?.url)
             attachment.visibility = View.VISIBLE
-            if (!post.attachment?.description.isNullOrBlank()) {
+            /*if (!post.attachment?.description.isNullOrBlank()) {
                 attachment.contentDescription = post.attachment?.description
-            }
+            }*/
         } else {
             attachment.visibility = View.GONE
         }

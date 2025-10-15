@@ -7,8 +7,13 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
+import okhttp3.MultipartBody
+import okhttp3.RequestBody.Companion.asRequestBody
 import ru.netology.nmedia.api.PostApi
 import ru.netology.nmedia.dao.PostDao
+import ru.netology.nmedia.dto.Attachment
+import ru.netology.nmedia.dto.AttachmentType
+import ru.netology.nmedia.dto.Media
 import ru.netology.nmedia.dto.Post
 import ru.netology.nmedia.entity.PostEntity
 import ru.netology.nmedia.entity.toDto
@@ -16,6 +21,7 @@ import ru.netology.nmedia.error.ApiError
 import ru.netology.nmedia.error.AppError
 import ru.netology.nmedia.error.NetworkError
 import ru.netology.nmedia.error.UnknownError
+import java.io.File
 import java.io.IOException
 
 class PostRepositoryNetworkImpl(
@@ -94,9 +100,19 @@ class PostRepositoryNetworkImpl(
         }
     }
 
-    override suspend fun save(post: Post): Post {
+    override suspend fun save(post: Post, photo: File?): Post {
         try {
-            val response = PostApi.service.save(post)
+
+            val media = photo?.let {
+                upload(it)
+            }
+
+            val postWithAttachment = post.copy(
+                attachment = media?.let {
+                    Attachment(url = it.id, type = AttachmentType.IMAGE)
+                })
+
+            val response = PostApi.service.save(postWithAttachment)
             if (!response.isSuccessful) {
                 throw ApiError(response.code(), response.message())
             }
@@ -111,6 +127,15 @@ class PostRepositoryNetworkImpl(
             throw UnknownError
         }
     }
+
+    private suspend fun upload(file: File): Media =
+        PostApi.service.upload(
+            MultipartBody.Part.createFormData(
+                "file",
+                file.name,
+                file.asRequestBody()
+            )
+        )
 
     override suspend fun getAllAsync() {
         try {

@@ -22,4 +22,7 @@
     <string name="network_post_delete_error">Error to delete post. Something wrong.</string>
     <string name="post_send_status">Post send status</string>
     <string name="have_new_posts">Fresh posts</string>
+    <string name="save_post">Save</string>
+    <string name="remove">Remove</string>
+    <string name="image_picker_error">Image picker error</string>
 </resources>
