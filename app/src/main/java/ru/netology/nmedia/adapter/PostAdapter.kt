@@ -20,7 +20,9 @@ interface OnInteractorListener {
     fun onRemove(post: Post)
 
     //fun onVideoPlay(post: Post)
-    fun onOpen(post: Post)
+    //fun onOpen(post: Post)
+
+    fun onOpenFullImage(post: Post)
 }
 
 class PostAdapter(
@@ -68,7 +70,7 @@ class PostViewHolder(
         }
 
         if (!post.attachment?.url.isNullOrBlank()) {
-            attachment.load("http://10.0.2.2:9999/images/" + post.attachment?.url)
+            attachment.load("http://10.0.2.2:9999/media/" + post.attachment?.url, 10)
             attachment.visibility = View.VISIBLE
             /*if (!post.attachment?.description.isNullOrBlank()) {
                 attachment.contentDescription = post.attachment?.description
@@ -110,9 +112,12 @@ class PostViewHolder(
                 }
             }.show()
         }
-        root.setOnClickListener {
-            onInteractorListener.onOpen(post)
+        attachment.setOnClickListener {
+            onInteractorListener.onOpenFullImage(post)
         }
+        /*root.setOnClickListener {
+            onInteractorListener.onOpen(post)
+        }*/
     }
 }
 

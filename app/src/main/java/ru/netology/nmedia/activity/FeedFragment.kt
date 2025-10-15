@@ -79,7 +79,16 @@ class FeedFragment : Fragment() {
                     viewModel.removeById(post.id)
                 }
 
-                override fun onOpen(post: Post) {
+                override fun onOpenFullImage(post: Post) {
+                    findNavController().navigate(
+                        R.id.action_feedFragment_to_fullScreenImageFragment,
+                        Bundle().apply {
+                            textArgs = post.attachment?.url
+                        }
+                    )
+                }
+
+                /*override fun onOpen(post: Post) {
                     viewModel.editPostCancel()
                     findNavController().navigate(
                         R.id.action_feedFragment_to_onePostFragment,
@@ -87,7 +96,7 @@ class FeedFragment : Fragment() {
                             textArgs = post.id.toString()
                         }
                     )
-                }
+                }*/
 
             }
         )

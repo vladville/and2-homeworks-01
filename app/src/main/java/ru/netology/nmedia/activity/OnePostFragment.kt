@@ -67,13 +67,16 @@ class OnePostFragment : Fragment() {
                 viewModel.removeById(post.id)
             }
 
-            override fun onOpen(post: Post) {
-                findNavController().currentDestination
+            override fun onOpenFullImage(post: Post) {
             }
+
+            /*override fun onOpen(post: Post) {
+                findNavController().currentDestination
+            }*/
         })
 
 
-        viewModel.edited.observe(viewLifecycleOwner) {
+        /*viewModel.edited.observe(viewLifecycleOwner) {
             if (it.id != 0L) {
                 findNavController().navigate(
                     R.id.action_onePostFragment_to_newPostFragment,
@@ -82,7 +85,7 @@ class OnePostFragment : Fragment() {
                     }
                 )
             }
-        }
+        }*/
 
         val id = arguments?.textArgs?.toLong() ?: -1
         /*viewModel.data.observe(viewLifecycleOwner) { posts ->
