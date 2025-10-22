@@ -24,5 +24,11 @@
     <string name="have_new_posts">Свежие посты</string>
     <string name="save_post">Сохранить</string>
     <string name="remove">Удалить</string>
-    <string name="image_picker_error">Image picker error</string>
+    <string name="image_picker_error">Image picker ошибка</string>
+    <string name="notification_user_liked">ПОльзователь %1$s лайкнул %2$s\'s post</string>
+    <string name="channel_remote_name">Сервер уведомлегий</string>
+    <string name="channel_remote_description">Уведомления с удаленного сервера</string>
+    <string name="logout">Выйти</string>
+    <string name="sing_in">Войти</string>
+    <string name="sing_up">Зарегистрироваться</string>
 </resources>

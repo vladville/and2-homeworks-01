@@ -3,6 +3,7 @@ package ru.netology.nmedia.dto
 data class Post (
     val id: Long,
     val author: String,
+    val authorId: Long,
     val authorAvatar: String = "",
     val content: String,
     val published: String,
@@ -13,7 +14,8 @@ data class Post (
     var attachment: Attachment? = null,
     //val video: String = "",
     var sended: Boolean = false,
-    var showed: Boolean = true
+    var showed: Boolean = true,
+    val ownedByMe: Boolean = false,
 )
 
 enum class AttachmentType {

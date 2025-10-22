@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupMenu
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -60,6 +61,9 @@ class PostViewHolder(
             isChecked = post.likedByMe
             text = numbersToThousands(post.likes)
         }
+
+        menu.isVisible = post.ownedByMe
+
         if (!post.sended) {
             sendStatus.setBackgroundResource(R.drawable.ic_unsend)
         } else {

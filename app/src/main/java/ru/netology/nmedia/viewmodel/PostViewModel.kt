@@ -9,9 +9,12 @@ import androidx.lifecycle.asLiveData
 import androidx.lifecycle.switchMap
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
+import ru.netology.nmedia.auth.AppAuth
 import ru.netology.nmedia.db.AppDb
 import ru.netology.nmedia.dto.Post
 import ru.netology.nmedia.model.FeedModel
@@ -25,11 +28,13 @@ import java.io.File
 private val empty = Post(
     id = 0,
     author = "",
+    authorId = 0,
     authorAvatar = "",
     content = "",
-    published = ""
+    published = "",
 )
 
+@OptIn(ExperimentalCoroutinesApi::class)
 class PostViewModel(application: Application) : AndroidViewModel(application) {
     private val repository: PostRepository =
         PostRepositoryNetworkImpl(AppDb.getInstance(application).postDao())
@@ -37,8 +42,16 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
     val state: LiveData<FeedModelState>
         get() = _state
 
-    val data: LiveData<FeedModel> = repository.data
-        .map(::FeedModel)
+    val data: LiveData<FeedModel> = AppAuth.getInstance().data.flatMapLatest { token ->
+        repository.data
+            .map { posts ->
+                posts.map { post ->
+                    post.copy(ownedByMe = post.authorId == token?.id)
+
+                }
+            }
+            .map ( ::FeedModel )
+    }
         .asLiveData(Dispatchers.Default)
 
     val edited = MutableLiveData(empty)
@@ -121,6 +134,7 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
 
     fun editPostCancel() {
         edited.value = empty
+        _photo.value = null
     }
 
     fun isNewPost(): Boolean {

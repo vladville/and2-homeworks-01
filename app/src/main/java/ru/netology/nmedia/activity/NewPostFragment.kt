@@ -80,6 +80,7 @@ class NewPostFragment : Fragment() {
                     R.id.save -> {
                         viewModel.changeContent(binding.edit.text.toString())
                         viewModel.save()
+                        viewModel.removePhoto() //fix
                         AndroidUtils.hideKeyboard(requireView())
                         true
                     }

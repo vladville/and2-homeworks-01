@@ -25,4 +25,10 @@
     <string name="save_post">Save</string>
     <string name="remove">Remove</string>
     <string name="image_picker_error">Image picker error</string>
+    <string name="notification_user_liked">User %1$s liked %2$s\'s post</string>
+    <string name="channel_remote_name">Server notifications</string>
+    <string name="channel_remote_description">Notifications from remote server</string>
+    <string name="logout">Logout</string>
+    <string name="sing_in">Sing In</string>
+    <string name="sing_up">Sing Up</string>
 </resources>
