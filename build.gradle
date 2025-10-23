@@ -1,7 +1,7 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 buildscript {
     ext.kotlin_version = "2.2.10"
-    ext.android_gradle_version = "8.12.1"
+    ext.android_gradle_version = "8.13.0"
 }
 
 plugins {
@@ -12,7 +12,7 @@ plugins {
     id 'com.google.devtools.ksp' version "2.2.10-2.0.2" apply false
 }
 
-subprojects {
+/*subprojects {
     tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile) {
         kotlinOptions.jvmTarget = "17"
     }
@@ -20,4 +20,4 @@ subprojects {
 
 task clean(type: Delete) {
     delete rootProject.buildDir
-}
+}*/
