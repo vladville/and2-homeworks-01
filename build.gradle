@@ -12,7 +12,7 @@ plugins {
     id 'com.google.devtools.ksp' version "2.2.10-2.0.2" apply false
 }
 
-/*subprojects {
+subprojects {
     tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile) {
         kotlinOptions.jvmTarget = "17"
     }
@@ -20,4 +20,4 @@ plugins {
 
 task clean(type: Delete) {
     delete rootProject.buildDir
-}*/
+}
