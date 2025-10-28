@@ -5,9 +5,11 @@ import android.net.Uri
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.switchMap
 import androidx.lifecycle.viewModelScope
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.catch
@@ -24,6 +26,7 @@ import ru.netology.nmedia.repository.PostRepository
 import ru.netology.nmedia.repository.PostRepositoryNetworkImpl
 import ru.netology.nmedia.utils.SingleLiveEvent
 import java.io.File
+import javax.inject.Inject
 
 private val empty = Post(
     id = 0,
@@ -35,24 +38,24 @@ private val empty = Post(
 )
 
 @OptIn(ExperimentalCoroutinesApi::class)
-class PostViewModel(application: Application) : AndroidViewModel(application) {
-    private val repository: PostRepository =
-        PostRepositoryNetworkImpl(AppDb.getInstance(application).postDao())
+@HiltViewModel
+class PostViewModel @Inject constructor(
+    private val repository: PostRepository,
+    appAuth: AppAuth,
+) : ViewModel() {
     private val _state = MutableLiveData(FeedModelState())
     val state: LiveData<FeedModelState>
         get() = _state
 
-    val data: LiveData<FeedModel> = AppAuth.getInstance().data.flatMapLatest { token ->
+    val data: LiveData<FeedModel> = appAuth.data.flatMapLatest { token ->
         repository.data
             .map { posts ->
                 posts.map { post ->
                     post.copy(ownedByMe = post.authorId == token?.id)
-
                 }
             }
             .map ( ::FeedModel )
-    }
-        .asLiveData(Dispatchers.Default)
+    }.asLiveData(Dispatchers.Default)
 
     val edited = MutableLiveData(empty)
 

@@ -34,7 +34,7 @@ class FeedFragment : Fragment() {
             false,
         )
 
-        val viewModel: PostViewModel by viewModels(ownerProducer = ::requireParentFragment)
+        val viewModel: PostViewModel by viewModels()
 
         binding.fab.setOnClickListener {
             viewModel.editPostCancel()
