@@ -25,7 +25,7 @@ class OnePostFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
 
-        val viewModel: PostViewModel by viewModels(ownerProducer = ::requireParentFragment)
+        val viewModel: PostViewModel by viewModels()
 
         val binding = FragmentOnePostBinding.inflate(
             inflater,

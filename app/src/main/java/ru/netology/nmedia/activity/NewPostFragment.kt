@@ -42,7 +42,7 @@ class NewPostFragment : Fragment() {
             false
         )
 
-        val viewModel: PostViewModel by viewModels(ownerProducer = ::requireParentFragment)
+        val viewModel: PostViewModel by viewModels()
 
         val photoLauncher =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
