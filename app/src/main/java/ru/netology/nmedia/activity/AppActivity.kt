@@ -10,13 +10,19 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.MenuProvider
 import androidx.navigation.findNavController
 import com.google.android.material.snackbar.Snackbar
+import dagger.hilt.android.AndroidEntryPoint
 import ru.netology.nmedia.R
 import ru.netology.nmedia.activity.FeedFragment.Companion.textArgs
 import ru.netology.nmedia.auth.AppAuth
 import ru.netology.nmedia.databinding.ActivityAppBinding
 import ru.netology.nmedia.viewmodel.AuthViewModel
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class AppActivity : AppCompatActivity() {
+
+    @Inject
+    lateinit var appAuth: AppAuth
 
     private val viewModel by viewModels<AuthViewModel>()
 
@@ -44,18 +50,18 @@ class AppActivity : AppCompatActivity() {
                     when (menuItem.itemId) {
                         R.id.singIn -> {
                             //TODO homework
-                            AppAuth.getInstance().setAuth(5, "x-token")
+                            appAuth.setAuth(5, "x-token")
                             true
                         }
 
                         R.id.singUp -> {
                             //TODO homework
-                            AppAuth.getInstance().setAuth(5, "x-token")
+                            appAuth.setAuth(5, "x-token")
                             true
                         }
 
                         R.id.logOut -> {
-                            AppAuth.getInstance().removeAuth()
+                            appAuth.removeAuth()
                             true
                         }
 

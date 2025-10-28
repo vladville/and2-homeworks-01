@@ -6,10 +6,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import dagger.hilt.android.AndroidEntryPoint
 import ru.netology.nmedia.activity.FeedFragment.Companion.textArgs
 import ru.netology.nmedia.databinding.FragmentFullImageBinding
 import ru.netology.nmedia.dto.load
 
+@AndroidEntryPoint
 class FullScreenImageFragment : Fragment() {
 
     override fun onCreateView(

@@ -24,8 +24,9 @@ import ru.netology.nmedia.error.UnknownError
 import ru.netology.nmedia.service.FCMService
 import java.io.File
 import java.io.IOException
+import javax.inject.Inject
 
-class PostRepositoryNetworkImpl(
+class PostRepositoryNetworkImpl @Inject constructor(
     private val dao: PostDao,
 ) : PostRepository {
 

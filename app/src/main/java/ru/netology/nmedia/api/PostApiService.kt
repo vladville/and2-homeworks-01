@@ -23,6 +23,7 @@ import java.util.concurrent.TimeUnit
 
 private const val BASE_URL = "${BuildConfig.BASE_URL}/api/"
 private const val TIMEOUT = 0L
+
 private val client = OkHttpClient.Builder()
     .addInterceptor { chain ->
         val request = AppAuth.getInstance().data.value?.let { token ->
