@@ -22,7 +22,8 @@ import javax.inject.Singleton
 
 @Singleton
 class AppAuth @Inject constructor(
-    @ApplicationContext private val context: Context,
+    @ApplicationContext
+    private val context: Context,
 ) {
     private val prefs = context.getSharedPreferences("auth", Context.MODE_PRIVATE)
     private val idKey = "id"
@@ -50,7 +51,7 @@ class AppAuth @Inject constructor(
     @InstallIn(SingletonComponent::class)
     @EntryPoint
     interface AppAuthEntryPoint {
-        fun apiService(): ApiService
+        fun getApiService(): ApiService
     }
 
     @Synchronized
@@ -78,19 +79,12 @@ class AppAuth @Inject constructor(
         CoroutineScope(Dispatchers.Default).launch {
             try {
                 val pushToken = PushToken(token ?: Firebase.messaging.token.await())
-                getApiService(context).saveToken(pushToken)
+                val entryPoint = EntryPointAccessors.fromApplication(context, AppAuthEntryPoint::class.java)
+                entryPoint.getApiService().saveToken(pushToken)
             } catch (e: Exception) {
                 e.printStackTrace()
             }
         }
-    }
-
-    private fun getApiService(context: Context): ApiService {
-        val hiltEntryPoint = EntryPointAccessors.fromApplication(
-            context,
-            AppAuthEntryPoint::class.java
-        )
-        return hiltEntryPoint.apiService()
     }
 }
 
