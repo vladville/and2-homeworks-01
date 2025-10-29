@@ -1,8 +1,6 @@
 package ru.netology.nmedia.viewmodel
 
-import android.app.Application
 import android.net.Uri
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -17,13 +15,11 @@ import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import ru.netology.nmedia.auth.AppAuth
-import ru.netology.nmedia.db.AppDb
 import ru.netology.nmedia.dto.Post
 import ru.netology.nmedia.model.FeedModel
 import ru.netology.nmedia.model.FeedModelState
 import ru.netology.nmedia.model.PhotoModel
 import ru.netology.nmedia.repository.PostRepository
-import ru.netology.nmedia.repository.PostRepositoryNetworkImpl
 import ru.netology.nmedia.utils.SingleLiveEvent
 import java.io.File
 import javax.inject.Inject
@@ -47,15 +43,15 @@ class PostViewModel @Inject constructor(
     val state: LiveData<FeedModelState>
         get() = _state
 
-    val data: LiveData<FeedModel> = appAuth.data.flatMapLatest { token ->
-        repository.data
-            .map { posts ->
-                posts.map { post ->
-                    post.copy(ownedByMe = post.authorId == token?.id)
+    val data: LiveData<FeedModel> = appAuth.authStateFlow
+        .flatMapLatest { (myId, _) ->
+            repository.data
+                .map { posts ->
+                    FeedModel(
+                        posts.map { it.copy(ownedByMe = it.authorId == myId) }
+                    )
                 }
-            }
-            .map ( ::FeedModel )
-    }.asLiveData(Dispatchers.Default)
+        }.asLiveData(Dispatchers.Default)
 
     val edited = MutableLiveData(empty)
 
@@ -123,7 +119,7 @@ class PostViewModel @Inject constructor(
                 try {
                     repository.save(it, _photo.value?.file)
                     _state.value = FeedModelState()
-                } catch (e: Exception) {
+                } catch (_: Exception) {
                     _state.value = FeedModelState(error = true)
                 }
             }

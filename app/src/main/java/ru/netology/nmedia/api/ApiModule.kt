@@ -36,10 +36,9 @@ class ApiModule {
     ): OkHttpClient = OkHttpClient.Builder()
         .addInterceptor(logging)
         .addInterceptor { chain ->
-            //val request = AppAuth.getInstance().data.value?.let { token ->
-            val request = appAuth.data.value?.let { token ->
+            val request = appAuth.authStateFlow.value.token?.let { token ->
                 chain.request().newBuilder()
-                    .addHeader("Authorization", token.token)
+                    .addHeader("Authorization", token)
                     .build()
             } ?: chain.request()
 
@@ -62,5 +61,5 @@ class ApiModule {
     @Provides
     fun provideApiService(
         retrofit: Retrofit
-    ): PostApiService = retrofit.create<PostApiService>()
+    ): ApiService = retrofit.create<ApiService>()
 }

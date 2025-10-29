@@ -31,4 +31,5 @@
     <string name="logout">Выйти</string>
     <string name="sing_in">Войти</string>
     <string name="sing_up">Зарегистрироваться</string>
+    <string name="google_play_unavailable">Google Api не доступно</string>
 </resources>

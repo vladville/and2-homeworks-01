@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
-import ru.netology.nmedia.api.PostApi
+import ru.netology.nmedia.api.ApiService
 import ru.netology.nmedia.dao.PostDao
 import ru.netology.nmedia.dto.Attachment
 import ru.netology.nmedia.dto.AttachmentType
@@ -21,13 +21,13 @@ import ru.netology.nmedia.error.ApiError
 import ru.netology.nmedia.error.AppError
 import ru.netology.nmedia.error.NetworkError
 import ru.netology.nmedia.error.UnknownError
-import ru.netology.nmedia.service.FCMService
 import java.io.File
 import java.io.IOException
 import javax.inject.Inject
 
 class PostRepositoryNetworkImpl @Inject constructor(
     private val dao: PostDao,
+    private val apiService: ApiService
 ) : PostRepository {
 
     val lastId = Long.MAX_VALUE
@@ -44,16 +44,16 @@ class PostRepositoryNetworkImpl @Inject constructor(
         try {
             val post = dao.getUnsentPost()
             if (post != null) {
-                val response = PostApi.service.save(post.toDto().copy(0L))
+                val response = apiService.save(post.toDto().copy(0L))
                 if (!response.isSuccessful) {
                     throw ApiError(response.code(), response.message())
                 } else {
                     removeById(lastId)
                 }
             }
-        } catch (e: IOException) {
+        } catch (_: IOException) {
             throw NetworkError
-        } catch (e: Exception) {
+        } catch (_: Exception) {
             throw UnknownError
         }
     }
@@ -61,7 +61,7 @@ class PostRepositoryNetworkImpl @Inject constructor(
     override fun getNewerCount(id: Long): Flow<Int> = flow {
         while (true) {
             delay(10_000L)
-            val response = PostApi.service.getNewer(id)
+            val response = apiService.getNewer(id)
             if (!response.isSuccessful) {
                 throw ApiError(response.code(), response.message())
             }
@@ -80,10 +80,10 @@ class PostRepositoryNetworkImpl @Inject constructor(
 
     override suspend fun getAndUpdateUnshowedPosts() {
         try {
-            dao.setShowedPost();
-        } catch (e: IOException) {
+            dao.setShowedPost()
+        } catch (_: IOException) {
             throw NetworkError
-        } catch (e: Exception) {
+        } catch (_: Exception) {
             throw UnknownError
         }
     }
@@ -91,13 +91,13 @@ class PostRepositoryNetworkImpl @Inject constructor(
     override suspend fun removeById(id: Long) {
         try {
             dao.removeById(id)
-            val response = PostApi.service.removeById(id)
+            val response = apiService.removeById(id)
             if (!response.isSuccessful) {
                 throw ApiError(response.code(), response.message())
             }
-        } catch (e: IOException) {
+        } catch (_: IOException) {
             throw NetworkError
-        } catch (e: Exception) {
+        } catch (_: Exception) {
             throw UnknownError
         }
     }
@@ -114,24 +114,24 @@ class PostRepositoryNetworkImpl @Inject constructor(
                     Attachment(url = it.id, type = AttachmentType.IMAGE)
                 })
 
-            val response = PostApi.service.save(postWithAttachment)
+            val response = apiService.save(postWithAttachment)
             if (!response.isSuccessful) {
                 throw ApiError(response.code(), response.message())
             }
             val post = response.body() ?: throw ApiError(response.code(), response.message())
             dao.insert(PostEntity.fromDto(post.copy(sended = true, showed = true)))
             return post
-        } catch (e: IOException) {
+        } catch (_: IOException) {
             dao.insert(PostEntity.fromDto(post.copy(lastId)))
             throw NetworkError
-        } catch (e: Exception) {
+        } catch (_: Exception) {
             dao.insert(PostEntity.fromDto(post.copy(lastId)))
             throw UnknownError
         }
     }
 
     private suspend fun upload(file: File): Media =
-        PostApi.service.upload(
+        apiService.upload(
             MultipartBody.Part.createFormData(
                 "file",
                 file.name,
@@ -142,7 +142,7 @@ class PostRepositoryNetworkImpl @Inject constructor(
     override suspend fun getAllAsync() {
         try {
             sendUnsentPost()
-            val response = PostApi.service.getAll()
+            val response = apiService.getAll()
             if (!response.isSuccessful) {
                 throw ApiError(response.code(), response.message())
             }
@@ -151,9 +151,9 @@ class PostRepositoryNetworkImpl @Inject constructor(
                 PostEntity.fromDto(post.copy(sended = true, showed = true))
             }
             dao.insert(entities)
-        } catch (e: IOException) {
+        } catch (_: IOException) {
             throw NetworkError
-        } catch (e: Exception) {
+        } catch (_: Exception) {
             throw UnknownError
         }
     }
@@ -161,16 +161,16 @@ class PostRepositoryNetworkImpl @Inject constructor(
     override suspend fun setLikeAsync(id: Long): Post {
         try {
             dao.like(id)
-            val response = PostApi.service.setLike(id)
+            val response = apiService.setLike(id)
             if (!response.isSuccessful) {
                 throw ApiError(response.code(), response.message())
             }
             val post = response.body() ?: throw ApiError(response.code(), response.message())
             return post
-        } catch (e: IOException) {
+        } catch (_: IOException) {
             dao.like(id)
             throw NetworkError
-        } catch (e: Exception) {
+        } catch (_: Exception) {
             dao.like(id)
             throw UnknownError
         }
@@ -179,16 +179,16 @@ class PostRepositoryNetworkImpl @Inject constructor(
     override suspend fun setUnlikeAsync(id: Long): Post {
         try {
             dao.like(id)
-            val response = PostApi.service.setUnlike(id)
+            val response = apiService.setUnlike(id)
             if (!response.isSuccessful) {
                 throw ApiError(response.code(), response.message())
             }
             val post = response.body() ?: throw ApiError(response.code(), response.message())
             return post
-        } catch (e: IOException) {
+        } catch (_: IOException) {
             dao.like(id)
             throw NetworkError
-        } catch (e: Exception) {
+        } catch (_: Exception) {
             dao.like(id)
             throw UnknownError
         }
