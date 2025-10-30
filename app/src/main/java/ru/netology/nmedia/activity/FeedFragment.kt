@@ -8,9 +8,15 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
+import androidx.paging.LoadState
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 import ru.netology.nmedia.R
 import ru.netology.nmedia.adapter.OnInteractorListener
 import ru.netology.nmedia.adapter.PostAdapter
@@ -44,7 +50,8 @@ class FeedFragment : Fragment() {
         val adapter = PostAdapter(
             object : OnInteractorListener {
                 override fun onLike(post: Post) {
-                    viewModel.like(post.id)
+                    //TODO fix
+                    //viewModel.like(post.id)
                 }
 
                 override fun onShare(post: Post) {
@@ -105,7 +112,13 @@ class FeedFragment : Fragment() {
 
         binding.list.adapter = adapter
 
-        viewModel.data.observe(viewLifecycleOwner) { state ->
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.data.collectLatest(adapter::submitData)
+            }
+        }
+
+        /*viewModel.data.observe(viewLifecycleOwner) { state ->
             val isNew = state.posts.size > adapter.itemCount //only if add operation
             adapter.submitList(state.posts)
             binding.empty.isVisible = state.empty
@@ -113,12 +126,23 @@ class FeedFragment : Fragment() {
             if (isNew) {
                 binding.list.smoothScrollToPosition(0)
             }
+        }*/
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                adapter.loadStateFlow.collectLatest { state ->
+                    binding.swipeRefresh.isRefreshing =
+                        state.refresh is LoadState.Loading ||
+                                state.prepend is LoadState.Loading ||
+                                state.append is LoadState.Loading
+                }
+            }
         }
 
-        viewModel.newerCount.observe(viewLifecycleOwner) { state ->
+        /*viewModel.newerCount.observe(viewLifecycleOwner) { state ->
             val haveNew = state > 0
             binding.newPostBtn.isVisible = haveNew
-        }
+        }*/
 
         binding.newPostBtn.setOnClickListener {
             binding.newPostBtn.isVisible = false
@@ -155,7 +179,8 @@ class FeedFragment : Fragment() {
         }
 
         binding.swipeRefresh.setOnRefreshListener {
-            viewModel.refresh()
+            //viewModel.refresh()
+            adapter.refresh()
         }
 
         return binding.root

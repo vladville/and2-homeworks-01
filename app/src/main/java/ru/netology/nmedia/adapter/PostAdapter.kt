@@ -5,13 +5,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupMenu
 import androidx.core.view.isVisible
+import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import ru.netology.nmedia.R
-import ru.netology.nmedia.dto.load
 import ru.netology.nmedia.databinding.CardPostBinding
 import ru.netology.nmedia.dto.Post
+import ru.netology.nmedia.dto.load
 import ru.netology.nmedia.dto.numbersToThousands
 
 interface OnInteractorListener {
@@ -28,7 +28,7 @@ interface OnInteractorListener {
 
 class PostAdapter(
     private val onInteractorListener: OnInteractorListener
-) : ListAdapter<Post, PostViewHolder>(PostDiffCallBack) {
+) : PagingDataAdapter<Post, PostViewHolder>(PostDiffCallback()) {
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -42,8 +42,9 @@ class PostAdapter(
         holder: PostViewHolder,
         position: Int
     ) {
-        val post = getItem(position)
-        holder.bind(post)
+        getItem(position)?.let {
+            holder.bind(it)
+        }
     }
 }
 
@@ -125,7 +126,7 @@ class PostViewHolder(
     }
 }
 
-object PostDiffCallBack : DiffUtil.ItemCallback<Post>() {
+class PostDiffCallback : DiffUtil.ItemCallback<Post>() {
     override fun areItemsTheSame(oldItem: Post, newItem: Post): Boolean {
         return oldItem.id == newItem.id
     }
