@@ -50,8 +50,7 @@ class FeedFragment : Fragment() {
         val adapter = PostAdapter(
             object : OnInteractorListener {
                 override fun onLike(post: Post) {
-                    //TODO fix
-                    //viewModel.like(post.id)
+                    viewModel.like(post)
                 }
 
                 override fun onShare(post: Post) {
@@ -179,7 +178,7 @@ class FeedFragment : Fragment() {
         }
 
         binding.swipeRefresh.setOnRefreshListener {
-            //viewModel.refresh()
+            viewModel.refresh()
             adapter.refresh()
         }
 

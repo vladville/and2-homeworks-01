@@ -28,7 +28,7 @@ interface OnInteractorListener {
 
 class PostAdapter(
     private val onInteractorListener: OnInteractorListener
-) : PagingDataAdapter<Post, PostViewHolder>(PostDiffCallback()) {
+) : PagingDataAdapter<Post, PostViewHolder>(PostDiffCallBack) {
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -38,10 +38,8 @@ class PostAdapter(
         return PostViewHolder(binding, onInteractorListener)
     }
 
-    override fun onBindViewHolder(
-        holder: PostViewHolder,
-        position: Int
-    ) {
+    override fun onBindViewHolder(holder: PostViewHolder, position: Int) {
+        // FIXME: students will do in HW
         getItem(position)?.let {
             holder.bind(it)
         }
@@ -126,7 +124,7 @@ class PostViewHolder(
     }
 }
 
-class PostDiffCallback : DiffUtil.ItemCallback<Post>() {
+object PostDiffCallBack : DiffUtil.ItemCallback<Post>() {
     override fun areItemsTheSame(oldItem: Post, newItem: Post): Boolean {
         return oldItem.id == newItem.id
     }

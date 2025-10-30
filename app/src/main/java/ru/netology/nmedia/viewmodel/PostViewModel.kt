@@ -143,6 +143,24 @@ class PostViewModel @Inject constructor(
         return edited.value?.id == 0L
     }
 
+    fun like(post: Post) {
+        viewModelScope.launch {
+            try {
+                if (!post.likedByMe) {
+                    repository.setLikeAsync(post.id)
+                } else {
+                    repository.setUnlikeAsync(post.id)
+                }
+                _state.value = FeedModelState()
+            } catch (e: Exception) {
+                 if (!post.likedByMe) {
+                     _state.value = FeedModelState(errorSetLike = true)
+                 } else {
+                     _state.value = FeedModelState(errorUnLike = true)
+                 }
+            }
+        }
+    }
     /*fun like(id: Long) {
         viewModelScope.launch {
             data.value?.posts?.map { post ->

@@ -22,10 +22,10 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.messaging.FirebaseMessaging
 import dagger.hilt.android.AndroidEntryPoint
 import ru.netology.nmedia.R
-import ru.netology.nmedia.activity.FeedFragment.Companion.textArgs
 import ru.netology.nmedia.auth.AppAuth
 import ru.netology.nmedia.databinding.ActivityAppBinding
 import ru.netology.nmedia.viewmodel.AuthViewModel
+import ru.netology.nmedia.viewmodel.PostViewModel
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -33,6 +33,7 @@ class AppActivity : AppCompatActivity() {
     @Inject
     lateinit var appAuth: AppAuth
     private val viewModel: AuthViewModel by viewModels()
+    private val postViewModel: PostViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -117,12 +118,7 @@ class AppActivity : AppCompatActivity() {
                 return@let
             }
 
-            findNavController(R.id.nav_host_fragment).navigate(
-                R.id.action_feedFragment_to_newPostFragment,
-                Bundle().apply {
-                    textArgs = text
-                }
-            )
+
 
         }
     }
