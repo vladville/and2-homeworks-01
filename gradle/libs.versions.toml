@@ -12,6 +12,7 @@ constraintlayout = "2.2.1"
 filamentAndroid = "1.17.1"
 firebaseMessagingKtx = "25.0.1"
 firebaseMessaging = "25.0.1"
+googleGmsGoogleServices = "4.4.4"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -29,4 +30,5 @@ firebase-messaging = { group = "com.google.firebase", name = "firebase-messaging
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+google-gms-google-services = { id = "com.google.gms.google-services", version.ref = "googleGmsGoogleServices" }
 

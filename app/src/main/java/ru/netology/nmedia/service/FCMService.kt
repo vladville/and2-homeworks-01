@@ -38,12 +38,12 @@ class FCMService : FirebaseMessagingService() {
 
     override fun onMessageReceived(message: RemoteMessage) {
         // TODO: replace this in homework
-        println(message.data["content"])
+        println("FCM send: " + message.data)
     }
 
 
     override fun onNewToken(token: String) {
-        //println(token)
+        println(token)
         appAuth.sendPushToken(token)
     }
 }

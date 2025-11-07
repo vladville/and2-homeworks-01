@@ -1,6 +1,7 @@
 package ru.netology.nmedia.dao
 
 import androidx.lifecycle.LiveData
+import androidx.paging.PagingSource
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
@@ -12,6 +13,9 @@ import ru.netology.nmedia.entity.PostEntity
 interface PostDao {
     @Query("SELECT * FROM posts WHERE showed = 1 ORDER BY id DESC")
     fun get(): Flow<List<PostEntity>>
+
+    @Query("SELECT * FROM posts ORDER BY id DESC")
+    fun getPagingSource(): PagingSource<Int, PostEntity>
 
     @Query("SELECT COUNT(*) = 0 FROM posts")
     fun isEmpty(): LiveData<Boolean>
@@ -59,4 +63,7 @@ interface PostDao {
 
     @Query("UPDATE posts SET showed = 1 WHERE showed = 0")
     suspend fun setShowedPost()
+
+    @Query("DELETE FROM posts")
+    suspend fun clear()
 }
