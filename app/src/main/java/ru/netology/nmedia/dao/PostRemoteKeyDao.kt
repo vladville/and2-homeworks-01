@@ -1,5 +1,6 @@
 package ru.netology.nmedia.dao
 
+import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
@@ -22,4 +23,7 @@ interface PostRemoteKeyDao {
 
     @Query("DELETE FROM PostRemoteKeyEntity")
     suspend fun clear()
+
+    @Query("SELECT COUNT(*) = 0 FROM PostRemoteKeyEntity")
+    fun isEmpty(): Boolean
 }
