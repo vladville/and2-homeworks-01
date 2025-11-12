@@ -1,7 +1,11 @@
 package ru.netology.nmedia.dto
 
-data class Post (
-    val id: Long,
+sealed interface FeedItem {
+    val id: Long
+}
+
+data class Post(
+    override val id: Long,
     val author: String,
     val authorId: Long,
     val authorAvatar: String = "",
@@ -16,11 +20,17 @@ data class Post (
     var sended: Boolean = false,
     var showed: Boolean = true,
     val ownedByMe: Boolean = false,
-)
+) : FeedItem
+
+data class Ad(
+    override val id: Long,
+    val image: String,
+) : FeedItem
 
 enum class AttachmentType {
     IMAGE
 }
+
 data class Attachment(
     val url: String,
     val type: AttachmentType,
