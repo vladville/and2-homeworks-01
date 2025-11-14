@@ -22,6 +22,7 @@ import ru.netology.nmedia.adapter.OnInteractorListener
 import ru.netology.nmedia.adapter.PostAdapter
 import ru.netology.nmedia.adapter.PostLoadingStateAdapter
 import ru.netology.nmedia.databinding.FragmentFeedBinding
+import ru.netology.nmedia.databinding.ItemLoadingBinding
 import ru.netology.nmedia.dto.Post
 import ru.netology.nmedia.utils.StringArg
 import ru.netology.nmedia.viewmodel.PostViewModel
@@ -34,6 +35,12 @@ class FeedFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+
+        val bindingLoadView = ItemLoadingBinding.inflate(
+            inflater,
+            container,
+            false,
+        )
 
         val binding = FragmentFeedBinding.inflate(
             inflater,
@@ -138,6 +145,9 @@ class FeedFragment : Fragment() {
                         state.refresh is LoadState.Loading /*||
                                 state.prepend is LoadState.Loading ||
                                 state.append is LoadState.Loading*/
+
+                    bindingLoadView.progress.isVisible =
+                        state.prepend is LoadState.Loading || state.append is LoadState.Loading
                 }
             }
         }

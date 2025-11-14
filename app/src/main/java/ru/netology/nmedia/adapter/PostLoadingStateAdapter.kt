@@ -30,7 +30,7 @@ class PostLoadingViewHolder(
 ) : RecyclerView.ViewHolder(itemLoadingBinding.root) {
     fun bind(loadState: LoadState) {
         itemLoadingBinding.apply {
-            itemLoadingBinding.progress.isVisible = loadState is LoadState.Loading
+            //itemLoadingBinding.progress.isVisible = loadState is LoadState.Loading
             itemLoadingBinding.retryButton.isVisible = loadState is LoadState.Error
 
             retryButton.setOnClickListener {
